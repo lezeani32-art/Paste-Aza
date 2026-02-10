@@ -1,18 +1,41 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Paste Aza Form</title>
+  <title>Paste Aza – Transfer</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
-  <h1>Paste Aza</h1>
 
-  <p>Paste transaction details below.</p>
+<h2>Transfer Money</h2>
 
-  <form>
-    <textarea rows="10" cols="40" placeholder="Paste details here..."></textarea>
-    <br><br>
-    <button type="submit">Submit</button>
-  </form>
+<form id="bankForm">
+
+  <label>Select Bank</label><br>
+  <select id="bank" required>
+    <option value="">Select Bank</option>
+    <option>Access Bank</option>
+    <option>GTBank</option>
+    <option>UBA</option>
+    <option>First Bank</option>
+    <option>Zenith Bank</option>
+    <option>Opay</option>
+    <option>Kuda</option>
+  </select><br><br>
+
+  <label>Account Number</label><br>
+  <input type="text" id="account" maxlength="10" required><br><br>
+
+  <label>Amount (₦)</label><br>
+  <input type="number" id="amount" required><br><br>
+
+  <label>Narration</label><br>
+  <textarea id="narration" rows="3" required></textarea><br><br>
+
+  <button type="submit">Send</button>
+
+</form>
+
+<p id="status"></p>
 
 </body>
 </html>
