@@ -1,41 +1,26 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Paste Aza – Transfer</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Generate Transfer</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<h2>Transfer Money</h2>
+<h2>Generate Transfer</h2>
 
-<form id="bankForm">
+<h3>Sender Details</h3>
+<input type="text" id="sender" placeholder="Sender Name">
+<input type="text" id="senderAccount" placeholder="Sender Account Number">
 
-  <label>Select Bank</label><br>
-  <select id="bank" required>
-    <option value="">Select Bank</option>
-    <option>Access Bank</option>
-    <option>GTBank</option>
-    <option>UBA</option>
-    <option>First Bank</option>
-    <option>Zenith Bank</option>
-    <option>Opay</option>
-    <option>Kuda</option>
-  </select><br><br>
+<h3>Beneficiary Details</h3>
+<input type="text" id="receiver" placeholder="Beneficiary Name">
+<input type="text" id="receiverAccount" placeholder="Beneficiary Account Number">
 
-  <label>Account Number</label><br>
-  <input type="text" id="account" maxlength="10" required><br><br>
+<h3>Other Information</h3>
+<input type="number" id="amount" placeholder="Amount">
 
-  <label>Amount (₦)</label><br>
-  <input type="number" id="amount" required><br><br>
+<button onclick="saveData()">Generate Transfer</button>
 
-  <label>Narration</label><br>
-  <textarea id="narration" rows="3" required></textarea><br><br>
-
-  <button type="submit">Send</button>
-
-</form>
-
-<p id="status"></p>
-
+<script src="script.js"></script>
 </body>
 </html>
