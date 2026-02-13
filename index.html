@@ -89,40 +89,21 @@
       <input type="number" required>
 
       <label>Choose Bank Receipt to Generate</label>
-      <h3>Select Bank</h3>
+      <select id="bank">
 
+<option value="">-- Choose Bank -</option>
+<option value="Access Bank">Access Bank</option <option value="GTBank">GTBank</option>
+<option value="First Bank">First Bank</option>
+<option value="UBA">UBA</option>
+<option value="Zenith Bank">Zenith Bank</option <option value="Fidelity Bank">Fidelity Bank</op'
+<option value="Opay">Opay</option>
+<option value="Moniepoint">Moniepoint</option>
+<option value="Kuda">Kuda Bank</option>
+<option value="FCMB">FCMB</option>
+<option value="Union Bank">Union Bank</option>
+    </select>
 
-  
-
-<div class="bank-select-box" onclick="openBankList()">
-  <span id="selectedBankText">-- Choose Bank --</span>
-</div>
-
-<input type="hidden" id="bank">
-
-<div id="bankList" class="bank-list">
-
-  <div class="bank-item" onclick="chooseBank('Access Bank')">
-    <img src="access.png" width="30">
-    Access Bank
-  </div>
-
-  <div class="bank-item" onclick="chooseBank('GTBank')">
-    <img src="gtbank.png" width="30">
-    GTBank
-  </div>
-
-  <div class="bank-item" onclick="chooseBank('UBA')">
-    <img src="uba.png" width="30">
-    UBA
-  </div>
-
-  <div class="bank-item" onclick="chooseBank('Zenith Bank')">
-    <img src="zenith.png" width="30">
-    Zenith Bank
-  </div>
-
-</div>
+    </div>
     <div class="card">
       <div class="section-title">Beneficiary Details</div>
 
