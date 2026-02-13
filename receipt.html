@@ -1,15 +1,65 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Transfer Receipt</title>
-  <link rel="stylesheet" href="style.css">
+  <title>Transaction Receipt</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body { font-family: Arial; background:#f2f2f2; padding:20px; }
+    .receipt { background:white; max-width:500px; margin:auto; padding:20px; border-radius:10px; }
+    .row { display:flex; justify-content:space-between; padding:10px 0; border-bottom:1px solid #ddd; }
+    .label { font-weight:bold; }
+    .status { margin-top:20px; padding:10px; background:#e8f5e9; color:green; text-align:center; font-weight:bold; }
+    .demo { color:red; text-align:center; font-size:12px; margin-bottom:10px; }
+  </style>
 </head>
 <body>
 
-<h2>Transfer Successful ✅</h2>
+<div class="receipt">
 
-<div id="receipt"></div>
+  <div class="demo">*** DEMO TRANSACTION - NOT A REAL BANK ***</div>
 
-<script src="script.js"></script>
+  <h2>Transaction Receipt</h2>
+
+  <div class="row">
+    <div class="label">Amount</div>
+    <div id="amount"></div>
+  </div>
+
+  <div class="row">
+    <div class="label">Sender</div>
+    <div id="sender"></div>
+  </div>
+
+  <div class="row">
+    <div class="label">Receiver</div>
+    <div id="receiver"></div>
+  </div>
+
+  <div class="row">
+    <div class="label">Date</div>
+    <div id="date"></div>
+  </div>
+
+  <div class="row">
+    <div class="label">Reference</div>
+    <div id="ref"></div>
+  </div>
+
+  <div class="status">
+    Transfer Successful
+  </div>
+
+</div>
+
+<script>
+document.getElementById("sender").innerText = localStorage.getItem("sender");
+document.getElementById("receiver").innerText = localStorage.getItem("receiver");
+document.getElementById("amount").innerText = "₦" + localStorage.getItem("amount");
+
+document.getElementById("date").innerText = new Date().toLocaleString();
+
+document.getElementById("ref").innerText = "TXN" + Math.floor(Math.random()*1000000000);
+</script>
+
 </body>
 </html>
