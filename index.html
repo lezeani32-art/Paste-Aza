@@ -89,19 +89,42 @@
       <input type="number" required>
 
       <label>Choose Bank Receipt to Generate</label>
-      <select id="bank">
+      <h3>Select Bank</h3>
 
-<option value="">-- Choose Bank -</option>
-<option value="Access Bank">Access Bank</option <option value="GTBank">GTBank</option>
-<option value="First Bank">First Bank</option>
-<option value="UBA">UBA</option>
-<option value="Zenith Bank">Zenith Bank</option <option value="Fidelity Bank">Fidelity Bank</op'
-<option value="Opay">Opay</option>
-<option value="Moniepoint">Moniepoint</option>
-<option value="Kuda">Kuda Bank</option>
-<option value="FCMB">FCMB</option>
-<option value="Union Bank">Union Bank</option>
-    </select>
+<div class="bank-select-box" onclick="openBankList()">
+  <span id="selectedBankText">-- Choose Bank --</span>
+</div>
+
+<input type="hidden" id="bank">
+
+<div id="bankList" class="bank-list">
+
+  <div class="bank-item" onclick="chooseBank('Access Bank')">
+    <img src="access.png" class="bank-logo">
+    Access Bank
+  </div>
+
+  <div class="bank-item" onclick="chooseBank('GTBank')">
+    <img src="gtbank.png" class="bank-logo">
+    GTBank
+  </div>
+
+  <div class="bank-item" onclick="chooseBank('UBA')">
+    <img src="uba.png" class="bank-logo">
+    UBA
+  </div>
+
+  <div class="bank-item" onclick="chooseBank('Zenith Bank')">
+    <img src="zenith.png" class="bank-logo">
+    Zenith Bank
+  </div>
+
+  <div class="bank-item" onclick="chooseBank('First Bank')">
+    <img src="firstbank.png" class="bank-logo">
+    First Bank
+  </div>
+
+</div>
 
     </div>
     <div class="card">
