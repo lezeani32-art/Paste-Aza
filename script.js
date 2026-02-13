@@ -1,31 +1,15 @@
-function saveData() {
-  const sender = document.getElementById("sender").value;
-  const receiver = document.getElementById("receiver").value;
-  const amount = document.getElementById("amount").value;
-
-  localStorage.setItem("sender", sender);
-  localStorage.setItem("receiver", receiver);
-  localStorage.setItem("amount", amount);
-
-  window.location.href = "confirm.html";
+.bank-option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  margin-bottom: 8px;
+  border-radius: 8px;
+  cursor: pointer;
+  background: white;
 }
 
-function goToReceipt() {
-  window.location.href = "receipt.html";
+.bank-option:hover {
+  background: #f2f2f2;
 }
-
-window.onload = function () {
-  if (document.getElementById("details")) {
-    document.getElementById("details").innerHTML =
-      "Sender: " + localStorage.getItem("sender") + "<br>" +
-      "Receiver: " + localStorage.getItem("receiver") + "<br>" +
-      "Amount: ₦" + localStorage.getItem("amount");
-  }
-
-  if (document.getElementById("receipt")) {
-    document.getElementById("receipt").innerHTML =
-      "₦" + localStorage.getItem("amount") +
-      " was sent from " +
-      localStorage.getElementById;
-  }
-};
