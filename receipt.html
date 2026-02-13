@@ -1,100 +1,48 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Demo Transaction Receipt</title>
+  <title>Transaction Receipt</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f2f2f2;
-      padding: 20px;
-    }
-
-    .receipt {
-      background: white;
-      max-width: 500px;
-      margin: auto;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    }
-
-    h2 {
-      text-align: center;
-      color: #1a237e;
-    }
-
-    .row {
-      display: flex;
-      justify-content: space-between;
-      padding: 10px 0;
-      border-bottom: 1px solid #ddd;
-    }
-
-    .label {
-      font-weight: bold;
-      color: #555;
-    }
-
-    .value {
-      color: #222;
-    }
-
-    .status {
-      text-align: center;
-      margin-top: 20px;
-      padding: 10px;
-      background: #e8f5e9;
-      color: green;
-      border-radius: 5px;
-      font-weight: bold;
-    }
-
-    .demo {
-      text-align: center;
-      color: red;
-      font-size: 12px;
-      margin-bottom: 10px;
-    }
+    body { font-family: Arial; background:#f2f2f2; padding:20px; }
+    .receipt { background:white; max-width:500px; margin:auto; padding:20px; border-radius:10px; }
+    .row { display:flex; justify-content:space-between; padding:10px 0; border-bottom:1px solid #ddd; }
+    .label { font-weight:bold; }
+    .status { margin-top:20px; padding:10px; background:#e8f5e9; color:green; text-align:center; font-weight:bold; }
+    .demo { color:red; text-align:center; font-size:12px; margin-bottom:10px; }
   </style>
 </head>
-
 <body>
 
 <div class="receipt">
 
-  <div class="demo">*** SAMPLE RECEIPT - DESIGN PROJECT ONLY ***</div>
+  <div class="demo">*** DEMO TRANSACTION - NOT A REAL BANK ***</div>
 
   <h2>Transaction Receipt</h2>
 
   <div class="row">
-    <div class="label">Transaction Amount</div>
-    <div class="value">₦15,000</div>
-  </div>
-
-  <div class="row">
-    <div class="label">Transaction Type</div>
-    <div class="value">Inter-Bank</div>
-  </div>
-
-  <div class="row">
-    <div class="label">Transaction Date</div>
-    <div class="value">2026-01-01 18:51:20</div>
+    <div class="label">Amount</div>
+    <div id="amount"></div>
   </div>
 
   <div class="row">
     <div class="label">Sender</div>
-    <div class="value">John Doe</div>
+    <div id="sender"></div>
   </div>
 
   <div class="row">
-    <div class="label">Beneficiary</div>
-    <div class="value">Jane Smith</div>
+    <div class="label">Receiver</div>
+    <div id="receiver"></div>
+  </div>
+
+  <div class="row">
+    <div class="label">Date</div>
+    <div id="date"></div>
   </div>
 
   <div class="row">
     <div class="label">Reference</div>
-    <div class="value">TXN123456789</div>
+    <div id="ref"></div>
   </div>
 
   <div class="status">
@@ -102,6 +50,16 @@
   </div>
 
 </div>
+
+<script>
+document.getElementById("sender").innerText = localStorage.getItem("sender");
+document.getElementById("receiver").innerText = localStorage.getItem("receiver");
+document.getElementById("amount").innerText = "₦" + localStorage.getItem("amount");
+
+document.getElementById("date").innerText = new Date().toLocaleString();
+
+document.getElementById("ref").innerText = "TXN" + Math.floor(Math.random()*1000000000);
+</script>
 
 </body>
 </html>
