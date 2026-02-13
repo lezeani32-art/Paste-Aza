@@ -45,6 +45,17 @@
     <div id="ref"></div>
   </div>
 
+
+ <div class="row">
+    <div class="label">Transaction type </div>
+    <div id="transaction type"></div>
+  </div>
+ 
+  <div class="row">
+    <div class="label">Remark</div>
+    <div id="remark"></div>
+  </div>
+  
   <div class="status">
     Transfer Successful
   </div>
@@ -54,9 +65,10 @@
 <script>
 document.getElementById("sender").innerText = localStorage.getItem("sender");
 document.getElementById("receiver").innerText = localStorage.getItem("receiver");
-document.getElementById("amount").innerText = "₦" + localStorage.getItem("amount");
-
-document.getElementById("date").innerText = new Date().toLocaleString();
+document.getElementById("transaction amount").innerText = "₦" + localStorage.getItem("transaction amount");
+document.getElementById("transaction type").innertext = localStorage.getItem("transaction type");
+document.getElementById("remark").innerText = localStorage.getItem("remark");
+  document.getElementById("date").innerText = new Date().toLocaleString();
 
 document.getElementById("ref").innerText = "TXN" + Math.floor(Math.random()*1000000000);
 </script>
