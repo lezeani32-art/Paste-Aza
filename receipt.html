@@ -4,74 +4,143 @@
   <title>Transaction Receipt</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
-    body { font-family: Arial; background:#f2f2f2; padding:20px; }
-    .receipt { background:white; max-width:500px; margin:auto; padding:20px; border-radius:10px; }
-    .row { display:flex; justify-content:space-between; padding:10px 0; border-bottom:1px solid #ddd; }
-    .label { font-weight:bold; }
-    .status { margin-top:20px; padding:10px; background:#e8f5e9; color:green; text-align:center; font-weight:bold; }
-    .demo { color:red; text-align:center; font-size:12px; margin-bottom:10px; }
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f4f6fb;
+      padding: 20px;
+    }
+
+    .receipt {
+      background: white;
+      max-width: 500px;
+      margin: auto;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 5px;
+    }
+
+    .demo {
+      text-align: center;
+      color: red;
+      font-size: 12px;
+      margin-bottom: 15px;
+    }
+
+    .row {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px 0;
+      border-bottom: 1px solid #eee;
+    }
+
+    .label {
+      font-weight: bold;
+      color: #555;
+    }
+
+    .value {
+      color: #222;
+    }
+
+    .status {
+      margin-top: 20px;
+      text-align: center;
+      padding: 12px;
+      background: #e8f5e9;
+      color: green;
+      font-weight: bold;
+      border-radius: 8px;
+    }
+
+    button {
+      margin-top: 15px;
+      width: 100%;
+      padding: 10px;
+      border: none;
+      border-radius: 8px;
+      background: #512da8;
+      color: white;
+      font-size: 14px;
+    }
   </style>
 </head>
 <body>
 
 <div class="receipt">
 
-  <div class="demo">*** DEMO TRANSACTION - NOT A REAL BANK ***</div>
+  <div class="demo">
+    *** DEMO TRANSACTION RECEIPT – EDUCATIONAL PURPOSE ONLY ***
+  </div>
 
   <h2>Transaction Receipt</h2>
 
   <div class="row">
-    <div class="label">Amount</div>
-    <div id="amount"></div>
+    <div class="label">Bank</div>
+    <div class="value" id="bank"></div>
   </div>
 
   <div class="row">
     <div class="label">Sender</div>
-    <div id="sender"></div>
+    <div class="value" id="sender"></div>
   </div>
 
   <div class="row">
-    <div class="label">Receiver</div>
-    <div id="receiver"></div>
+    <div class="label">Beneficiary</div>
+    <div class="value" id="receiver"></div>
+  </div>
+
+  <div class="row">
+    <div class="label">Amount</div>
+    <div class="value" id="amount"></div>
+  </div>
+
+  <div class="row">
+    <div class="label">Narration</div>
+    <div class="value" id="narration"></div>
   </div>
 
   <div class="row">
     <div class="label">Date</div>
-    <div id="date"></div>
+    <div class="value" id="date"></div>
   </div>
 
   <div class="row">
     <div class="label">Reference</div>
-    <div id="ref"></div>
+    <div class="value" id="ref"></div>
   </div>
 
-
- <div class="row">
-    <div class="label">Transaction type </div>
-    <div id="transaction type"></div>
-  </div>
- 
-  <div class="row">
-    <div class="label">Remark</div>
-    <div id="remark"></div>
-  </div>
-  
   <div class="status">
     Transfer Successful
   </div>
 
+  <button onclick="window.print()">Print Receipt</button>
+
 </div>
 
 <script>
-document.getElementById("sender").innerText = localStorage.getItem("sender");
-document.getElementById("receiver").innerText = localStorage.getItem("receiver");
-document.getElementById("transactionamount").innerText = "₦" + localStorage.getItem("amount");
-document.getElementById("transactiontype").innerText = localStorage.getItem("transaction type");
-document.getElementById("remark").innerText = localStorage.getItem("remark");
-  
-  document.getElementById("date").innerText = new Date().toLocaleString();
+  // Get stored values
+  document.getElementById("bank").innerText = localStorage.getItem("bank");
+  document.getElementById("sender").innerText = localStorage.getItem("sender");
+  document.getElementById("receiver").innerText = localStorage.getItem("receiver");
 
-document.getElementById("ref").innerText = "TXN" + Math.floor(Math.random()*1000000000);
+  let amount = localStorage.getItem("amount");
+  document.getElementById("amount").innerText =
+    "₦" + Number(amount).toLocaleString();
+
+  document.getElementById("narration").innerText =
+    localStorage.getItem("narration");
+
+  document.getElementById("date").innerText =
+    new Date().toLocaleString();
+
+  document.getElementById("ref").innerText =
+    "TXN" + Math.floor(Math.random() * 100000000000);
 </script>
 
 </body>
