@@ -1,19 +1,15 @@
-body {
-  font-family: Arial, sans-serif;
-  padding: 20px;
-  background: #f4f4f4;
-}
-
-input, select, button {
-  display: block;
-  width: 100%;
-  margin-bottom: 15px;
+.bank-option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
   padding: 10px;
+  border: 1px solid #ccc;
+  margin-bottom: 8px;
+  border-radius: 8px;
+  cursor: pointer;
+  background: white;
 }
 
-button {
-  background: purple;
-  color: white;
-  border: none;
-  cursor: pointer;
+.bank-option:hover {
+  background: #f2f2f2;
 }
