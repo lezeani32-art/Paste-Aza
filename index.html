@@ -13,12 +13,14 @@
 <body>
 
 <div class="box">
-  <h2>Demo Banking Transfer</h2>
+  <h2>Banking Transfer</h2>
 
   <form onsubmit="processForm(event)">
     <input type="text" id="sender" placeholder="Sender Name" required>
     <input type="text" id="receiver" placeholder="Receiver Name" required>
-    <input type="number" id="amount" placeholder="Amount (₦)" required>
+    <input type="number" id="Transaction amount" placeholder="Transation Amount (₦)" required>
+   <input type="text" id="Transaction" placeholder="Transaction type" required>
+   <input type="text" id="Remark" placeholder="Remark" required>
     <button type="submit">Transfer</button>
   </form>
 </div>
@@ -29,8 +31,9 @@ function processForm(e) {
 
   localStorage.setItem("sender", document.getElementById("sender").value);
   localStorage.setItem("receiver", document.getElementById("receiver").value);
-  localStorage.setItem("amount", document.getElementById("amount").value);
-
+  localStorage.setItem("Transaction amount", document.getElementById("amount").value);
+  localStorage.setItem("Transaction", document.getElementById("Transation").value);
+  localStorage.setItem("Remark", document.getElementById("Remark").value);
   window.location.href = "receipt.html";
 }
 </script>
