@@ -1,28 +1,130 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Demo Payment Portal</title>
+  <title>Demo Transfer Portal</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
-    body { font-family: Arial; background:#f2f2f2; padding:20px; }
-    .box { background:white; padding:20px; max-width:400px; margin:auto; border-radius:10px; }
-    input, button { width:100%; padding:10px; margin:10px 0; }
-    button { background:#1a237e; color:white; border:none; }
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f4f6fb;
+    }
+
+    .header {
+      background: #3f51b5;
+      color: white;
+      text-align: center;
+      padding: 15px;
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    .container {
+      padding: 15px;
+    }
+
+    .card {
+      background: white;
+      padding: 15px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    }
+
+    .section-title {
+      color: #8e24aa;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    label {
+      font-size: 13px;
+      color: #555;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 10px;
+      margin: 5px 0 15px 0;
+      border-radius: 6px;
+      border: 1px solid #ddd;
+      background: #f9f9f9;
+    }
+
+    .checkbox-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      background: linear-gradient(90deg, #7b1fa2, #512da8);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      margin-top: 10px;
+    }
   </style>
 </head>
 <body>
 
-<div class="box">
-  <h2>Demo Banking Transfer</h2>
+<div class="header">
+  Generate Transfer (Demo)
+</div>
+
+<div class="container">
 
   <form onsubmit="processForm(event)">
-    <input type="text" id="sender" placeholder="Sender Name" required>
-    <input type="text" id="receiver" placeholder="Receiver Name" required>
-    <input type="number" id="Transaction amount" placeholder="Transaction Amount (₦)" required>
-   <input type="text" id="Transaction" placeholder="Transaction type" required>
-   <input type="text" id="Remark" placeholder="Remark" required>
-    <button type="submit">Transfer</button>
+
+    <div class="card">
+      <div class="section-title">Sender Details</div>
+
+      <label>Sender Name</label>
+      <input type="text" id="sender" required>
+
+      <label>Sender Account Number</label>
+      <input type="number" required>
+
+      <label>Select Demo Bank</label>
+      <select>
+        <option>Demo Bank A</option>
+        <option>Demo Bank B</option>
+        <option>Demo Bank C</option>
+      </select>
+    </div>
+
+    <div class="card">
+      <div class="section-title">Beneficiary Details</div>
+
+      <label>Beneficiary Name</label>
+      <input type="text" id="receiver" required>
+
+      <label>Beneficiary Account Number</label>
+      <input type="number" required>
+
+      <div class="checkbox-row">
+        <label>Same bank as sender?</label>
+        <input type="checkbox">
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="section-title">Other Information</div>
+
+      <label>Amount</label>
+      <input type="number" id="amount" required>
+
+      <label>Narration</label>
+      <input type="text">
+    </div>
+
+    <button type="submit">Generate Receipt</button>
+
   </form>
+
 </div>
 
 <script>
@@ -31,10 +133,8 @@ function processForm(e) {
 
   localStorage.setItem("sender", document.getElementById("sender").value);
   localStorage.setItem("receiver", document.getElementById("receiver").value);
-  localStorage.setItem("Transaction amount", document.getElementById("amount").value);
-  localStorage.setItem("Transaction", document.getElementById("Transation").value);
-  localStorage.setItem("Remark", document.getElementById("Remark").value);
-  
+  localStorage.setItem("amount", document.getElementById("amount").value);
+
   window.location.href = "receipt.html";
 }
 </script>
