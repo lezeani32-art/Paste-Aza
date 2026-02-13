@@ -1,40 +1,44 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Generate Transfer</title>
-  <link rel="stylesheet" href="style.css">
+  <title>Paste Aza</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: Arial;
+      background: #f4f4f4;
+      text-align: center;
+      padding: 20px;
+    }
+    form {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      max-width: 400px;
+      margin: auto;
+    }
+    input, button {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+    }
+    button {
+      background: green;
+      color: white;
+      border: none;
+    }
+  </style>
 </head>
 <body>
 
-<h2>Generate Transfer</h2>
+<h2>Paste Aza Form</h2>
 
-<h3>Sender Details</h3>
-<input type="text" id="sender" placeholder="Sender Name">
-<input type="text" id="senderAccount" placeholder="Sender Account Number">
-<h3>Select Bank</h3>
-<select id="bank">
-  <option value="">-- Choose Bank --</option>
-  <option value="Access Bank">Access Bank</option>
-  <option value="GTBank">GTBank</option>
-  <option value="First Bank">First Bank</option>
-  <option value="UBA">UBA</option>
-  <option value="Zenith Bank">Zenith Bank</option>
-  <option value="Fidelity Bank">Fidelity Bank</option>
-  <option value="Opay">Opay</option>
-  <option value="Moniepoint">Moniepoint</option>
-  <option value="Kuda">Kuda Bank</option>
-  <option value="FCMB">FCMB</option>
-  <option value="Union Bank">Union Bank</option>
-</select>
-<h3>Beneficiary Details</h3>
-<input type="text" id="receiver" placeholder="Beneficiary Name">
-<input type="text" id="receiverAccount" placeholder="Beneficiary Account Number">
+<form>
+  <input type="text" placeholder="Enter Account Name" required>
+  <input type="text" placeholder="Enter Account Number" required>
+  <input type="text" placeholder="Enter Bank Name" required>
+  <button type="submit">Submit</button>
+</form>
 
-<h3>Other Information</h3>
-<input type="number" id="amount" placeholder="Amount">
-
-<button onclick="saveData()">Generate Transfer</button>
-
-<script src="script.js"></script>
 </body>
 </html>
