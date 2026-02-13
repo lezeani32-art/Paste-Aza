@@ -91,24 +91,37 @@
       <label>Choose Bank Receipt to Generate</label>
       <h3>Select Bank</h3>
 
-<div class="bank-option" onclick="selectBank('Access Bank')">
-  <img src="access.png" width="30">
-  Access Bank
-</div>
+<h3>Select Bank</h3>
 
-<div class="bank-option" onclick="selectBank('GTBank')">
-  <img src="gtbank.png" width="30">
-  GTBank
-</div>
-
-<div class="bank-option" onclick="selectBank('UBA')">
-  <img src="uba.png" width="30">
-  UBA
+<div class="bank-select-box" onclick="openBankList()">
+  <span id="selectedBankText">-- Choose Bank --</span>
 </div>
 
 <input type="hidden" id="bank">
-    </div>
 
+<div id="bankList" class="bank-list">
+
+  <div class="bank-item" onclick="chooseBank('Access Bank')">
+    <img src="access.png" width="30">
+    Access Bank
+  </div>
+
+  <div class="bank-item" onclick="chooseBank('GTBank')">
+    <img src="gtbank.png" width="30">
+    GTBank
+  </div>
+
+  <div class="bank-item" onclick="chooseBank('UBA')">
+    <img src="uba.png" width="30">
+    UBA
+  </div>
+
+  <div class="bank-item" onclick="chooseBank('Zenith Bank')">
+    <img src="zenith.png" width="30">
+    Zenith Bank
+  </div>
+
+</div>
     <div class="card">
       <div class="section-title">Beneficiary Details</div>
 
