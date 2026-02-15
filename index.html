@@ -89,21 +89,55 @@
       <input type="number" required>
 
       <label>Choose Bank Receipt to Generate</label>
-    <select id="bank">
-    
+    <div class="bank-select" onclick="openBankModal()">
+  <span id="selectedBank">Select Bank</span>
+</div>
 
-<option value="">-- Choose Bank -</option>
-<option value="Access Bank">Access Bank</option <option value="GTBank">GTBank</option>
-<option value="First Bank">First Bank</option>
-<option value="UBA">UBA</option>
-<option value="Zenith Bank">Zenith Bank</option <option value="Fidelity Bank">Fidelity Bank</op'
-<option value="Opay">Opay</option>
-<option value="Moniepoint">Moniepoint</option>
-<option value="Kuda">Kuda Bank</option>
-<option value="FCMB">FCMB</option>
-<option value="Union Bank">Union Bank</option>
-  </select>
+      <div class="bank-modal" id="bankModal">
+  <div class="modal-content">
 
+    <div class="modal-header">
+      <span class="close-btn" onclick="closeBankModal()">✕</span>
+      <h3>Select Bank</h3>
+    </div>
+
+    <input type="text" id="bankSearch" placeholder="Search Bank Name" onkeyup="filterBanks()">
+
+    <div class="bank-list" id="bankList">
+
+      <div class="bank-item" onclick="chooseBank('Opay')">
+        <img src="https://logo.clearbit.com/opayweb.com">
+        <span>OPay</span>
+      </div>
+
+      <div class="bank-item" onclick="chooseBank('Access Bank')">
+        <img src="https://logo.clearbit.com/accessbankplc.com">
+        <span>Access Bank</span>
+      </div>
+
+      <div class="bank-item" onclick="chooseBank('United Bank For Africa')">
+        <img src="https://logo.clearbit.com/ubagroup.com">
+        <span>United Bank For Africa</span>
+      </div>
+
+      <div class="bank-item" onclick="chooseBank('First Bank Of Nigeria')">
+        <img src="https://logo.clearbit.com/firstbanknigeria.com">
+        <span>First Bank Of Nigeria</span>
+      </div>
+
+      <div class="bank-item" onclick="chooseBank('Guaranty Trust Bank')">
+        <img src="https://logo.clearbit.com/gtbank.com">
+        <span>Guaranty Trust Bank</span>
+      </div>
+
+      <div class="bank-item" onclick="chooseBank('Zenith Bank')">
+        <img src="https://logo.clearbit.com/zenithbank.com">
+        <span>Zenith Bank</span>
+      </div>
+
+    </div>
+  </div>
+</div>
     </div>
     <div class="card">
       <div class="section-title">Beneficiary Details</div>
