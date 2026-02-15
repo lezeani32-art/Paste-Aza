@@ -1,75 +1,25 @@
-/* GENERAL PAGE STYLE */
+let selectedBank = "";
 
-body {
-  font-family: Arial, sans-serif;
-  padding: 20px;
-  background: #f4f4f4;
+function openBankModal() {
+  document.getElementById("bankModal").classList.add("active");
 }
 
-h2, h3 {
-  margin-bottom: 10px;
+function closeBankModal() {
+  document.getElementById("bankModal").classList.remove("active");
 }
 
-input, button {
-  width: 100%;
-  padding: 12px;
-  margin-bottom: 15px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-  font-size: 16px;
+function chooseBank(bankName) {
+  selectedBank = bankName;
+  document.getElementById("selectedBank").innerText = bankName;
+  closeBankModal();
 }
 
-button {
-  background: purple;
-  color: white;
-  border: none;
-  cursor: pointer;
-}
+function filterBanks() {
+  const input = document.getElementById("bankSearch").value.toLowerCase();
+  const banks = document.querySelectorAll(".bank-item");
 
-button:hover {
-  background: darkviolet;
-}
-
-/* ========================= */
-/* BANK SELECT CUSTOM STYLE */
-/* ========================= */
-
-.bank-select-box {
-  padding: 12px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  background: white;
-  cursor: pointer;
-  margin-bottom: 10px;
-  font-size: 16px;
-}
-
-.bank-list {
-  display: none;          /* Hidden by default */
-  max-height: 250px;      /* Makes it scrollable */
-  overflow-y: auto;
-  border: 1px solid #ccc;
-  border-radius: 10px;
-  background: white;
-  margin-bottom: 15px;
-}
-
-.bank-item {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 12px;
-  cursor: pointer;
-  border-bottom: 1px solid #eee;
-  font-size: 15px;
-}
-
-.bank-item:hover {
-  background: #f2f2f2;
-}
-
-.bank-logo {
-  width: 30px;
-  height: 30px;
-  object-fit: contain;
+  banks.forEach(bank => {
+    const text = bank.innerText.toLowerCase();
+    bank.style.display = text.includes(input) ? "flex" : "none";
+  });
 }
