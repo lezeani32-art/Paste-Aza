@@ -1,125 +1,185 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Demo Transfer Portal</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #f4f6fb;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NovaPay - Generate Transfer</title>
 
-    .header {
-      background: #3f51b5;
-      color: white;
-      text-align: center;
-      padding: 15px;
-      font-size: 18px;
-      font-weight: bold;
-    }
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 
-    .container {
-      padding: 15px;
-    }
+<style>
 
-    .card {
-      background: white;
-      padding: 15px;
-      border-radius: 10px;
-      margin-bottom: 20px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-    }
+body{
+    margin:0;
+    font-family:'Inter', sans-serif;
+    background:#ECECF3;
+}
 
-    .section-title {
-      color: #8e24aa;
-      font-weight: bold;
-      margin-bottom: 10px;
-    }
+/* TOP BLUE BAR */
+.top-bar{
+    background:#3F7AE0;
+    height:60px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    position:relative;
+    color:white;
+    font-weight:600;
+    font-size:18px;
+}
 
-    label {
-      font-size: 13px;
-      color: #555;
-    }
+/* BACK ICON */
+.back{
+    position:absolute;
+    left:15px;
+    font-size:22px;
+    cursor:pointer;
+}
 
-    input, select {
-      width: 100%;
-      padding: 10px;
-      margin: 5px 0 15px 0;
-      border-radius: 6px;
-      border: 1px solid #ddd;
-      background: #f9f9f9;
-    }
+/* CARD CONTAINER */
+.card{
+    background:#F7F7FA;
+    margin:18px;
+    padding:20px;
+    border-radius:18px;
+    box-shadow:0 10px 25px rgba(0,0,0,0.04);
+}
 
-    .checkbox-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
+/* SECTION TITLE */
+.section-title{
+    color:#9B5DE5;
+    font-size:18px;
+    font-weight:700;
+    margin-bottom:18px;
+}
 
-    button {
-      width: 100%;
-      padding: 12px;
-      background: linear-gradient(90deg, #7b1fa2, #512da8);
-      color: white;
-      border: none;
-      border-radius: 8px;
-      font-size: 16px;
-      margin-top: 10px;
-    }
-  </style>
+/* LABEL */
+label{
+    font-size:14px;
+    color:#6B7280;
+    display:block;
+    margin-bottom:6px;
+}
+
+/* INPUT STYLE */
+input, select, textarea{
+    width:100%;
+    padding:14px;
+    border:none;
+    border-radius:12px;
+    background:#E6E6EB;
+    font-size:15px;
+    margin-bottom:18px;
+    outline:none;
+}
+
+/* BANK SELECT BOX STYLE */
+.bank-box{
+    background:#EFEAE4;
+    padding:15px;
+    border-radius:12px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    font-weight:600;
+    margin-bottom:18px;
+    cursor:pointer;
+}
+
+.bank-left{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+/* LOGO CIRCLE */
+.logo{
+    width:35px;
+    height:35px;
+    border-radius:50%;
+    background:#FF8C00;
+}
+
+/* CHECKBOX ROW */
+.checkbox-row{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:18px;
+    font-size:15px;
+}
+
+.checkbox-row input{
+    width:22px;
+    height:22px;
+}
+
+/* BUTTON */
+.generate-btn{
+    width:90%;
+    margin:20px auto 40px auto;
+    display:block;
+    padding:16px;
+    border:none;
+    border-radius:14px;
+    font-size:16px;
+    font-weight:600;
+    color:white;
+    background:linear-gradient(90deg,#9B5DE5,#7B2FF7);
+    cursor:pointer;
+}
+
+.generate-btn:active{
+    transform:scale(0.97);
+}
+
+</style>
 </head>
+
 <body>
 
-<div class="header">
-  Generate Transfer 
+<div class="top-bar">
+    <div class="back">←</div>
+    Generate Transfer
 </div>
 
-<div class="container">
+<!-- SENDER DETAILS -->
+<div class="card">
+    <div class="section-title">Sender Details</div>
 
-  <form onsubmit="processForm(event)">
+    <label>Sender Name</label>
+    <input type="text">
 
-    <div class="card">
-      <div class="section-title">Sender Details</div>
+    <label>Sender Account Number</label>
+    <input type="text">
 
-      <label>Sender Name</label>
-      <input type="text" id="sender" required>
-
-      <label>Sender Account Number</label>
-      <input type="number" required>
-
-      <label>Choose Bank Receipt to Generate</label>
-  <select id="bank"> 
- 
- <option value="">-- Choose Bank -</option>
-<option value="Access Bank">Access Bank</option <option value="GTBank">GTBank</option>
-<option value="First Bank">First Bank</option>
-<option value="UBA">UBA</option>
-<option value="Zenith Bank">Zenith Bank</option <option value="Fidelity Bank">Fidelity Bank</op'
-<option value="Opay">Opay</option>
-<option value="Moniepoint">Moniepoint</option>
-<option value="Kuda">Kuda Bank</option>
-<option value="FCMB">FCMB</option>
-    <option value="Union Bank">Union Bank</option>
-  </select>
+    <label>Choose Bank Receipt to Generate</label>
     
-    </div> 
-    
-    <!-- BENEFICIARY -->
+    <div class="bank-box">
+        <div class="bank-left">
+            <div class="logo"></div>
+            <span>Select Bank</span>
+        </div>
+        <span>›</span>
+    </div>
+</div>
+
+<!-- BENEFICIARY DETAILS -->
 <div class="card">
     <div class="section-title">Beneficiary Details</div>
 
     <label>Beneficiary Name</label>
-    <input type="text" id="receiverName">
+    <input type="text">
 
     <label>Beneficiary Account Number</label>
-    <input type="text" id="receiverAccount">
+    <input type="text">
 
-    <label>Same bank as sender?</label>
-    <select id="sameBank">
-        <option value="Yes">Yes</option>
-        <option value="No">No</option>
-    </select>
+    <div class="checkbox-row">
+        <span>Same bank as sender?</span>
+        <input type="checkbox">
+    </div>
+
+    <input type="text" placeholder="Beneficiary Bank">
 </div>
 
 <!-- OTHER INFO -->
@@ -127,105 +187,13 @@
     <div class="section-title">Other Information</div>
 
     <label>Amount</label>
-    <input type="number" id="amount">
+    <input type="number">
+
+    <label>Narration</label>
+    <textarea rows="3"></textarea>
 </div>
 
-<button onclick="generateReceipt()">Generate Receipt</button>
-    
-    <!-- RECEIPT OUTPUT -->
-<div class="receipt" id="receipt">
+<button class="generate-btn">Generate Receipt</button>
 
-    <div class="receipt-header">
-        <div style="font-size:18px;font-weight:700;">NovaPay</div>
-        <div style="font-size:13px;margin-top:5px;">Transaction Successful</div>
-    </div>
-
-    <div class="receipt-body">
-
-        <div class="amount" id="rAmount"></div>
-
-        <div class="row">
-            <span class="label">Reference</span>
-            <span class="value" id="rRef"></span>
-        </div>
-
-        <div class="row">
-            <span class="label">Date</span>
-            <span class="value" id="rDate"></span>
-        </div>
-
-        <hr>
-
-        <div class="row">
-            <span class="label">Sender</span>
-            <span class="value" id="rSender"></span>
-        </div>
-
-        <div class="row">
-            <span class="label">Sender Account</span>
-            <span class="value" id="rSenderAcc"></span>
-        </div>
-
-        <hr>
-
-        <div class="row">
-            <span class="label">Beneficiary</span>
-            <span class="value" id="rReceiver"></span>
-        </div>
-
-        <div class="row">
-            <span class="label">Beneficiary Account</span>
-            <span class="value" id="rReceiverAcc"></span>
-        </div>
-
-        <div class="row">
-            <span class="label">Same Bank</span>
-            <span class="value" id="rSameBank"></span>
-        </div>
-
-    </div>
-
-</div>
-
-<script>
-function generateRef(){
-    return "NP-" + Math.floor(Math.random()*1000000000);
-}
-
-function generateReceipt(){
-
-    document.getElementById("rAmount").innerText =
-        "₦" + Number(document.getElementById("amount").value).toLocaleString();
-
-    document.getElementById("rRef").innerText = generateRef();
-    document.getElementById("rDate").innerText = new Date().toLocaleString();
-
-    document.getElementById("rSender").innerText =
-        document.getElementById("senderName").value;
-
-    document.getElementById("rSenderAcc").innerText =
-        document.getElementById("senderAccount").value;
-
-    document.getElementById("rReceiver").innerText =
-        document.getElementById("receiverName").value;
-
-    document.getElementById("rReceiverAcc").innerText =
-        document.getElementById("receiverAccount").value;
-
-    document.getElementById("rSameBank").innerText =
-        document.getElementById("sameBank").value;
-
-    document.getElementById("receipt").style.display = "block";
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+</body>
+</html>
