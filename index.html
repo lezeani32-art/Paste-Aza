@@ -1,4 +1,4 @@
-DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -204,236 +204,82 @@ input, textarea{
 <button class="generate-btn" onclick="generateReceipt()">Generate Receipt</button>
 
 </div>
-<!-- CORPORATE WHITE RECEIPT -->
+
+<!-- RECEIPT -->
 <div class="receipt" id="receiptSection">
 
-<style>
-.receipt{
-    display:none;
-    margin:20px;
-    background:white;
-    border-radius:12px;
-    box-shadow:0 10px 30px rgba(0,0,0,0.08);
-    overflow:hidden;
-    font-size:13px;
-}
+    <div class="receipt-header">
+        <h3>NovaPay</h3>
+        <div class="status">Transaction Successful</div>
+    </div>
 
-.receipt-header{
-    padding:20px;
-    border-bottom:1px solid #EEE;
-}
+    <div class="receipt-body">
 
-.bank-name{
-    font-size:16px;
-    font-weight:700;
-}
-
-.status-badge{
-    display:inline-block;
-    padding:4px 10px;
-    font-size:11px;
-    border-radius:20px;
-    background:#E6F7EC;
-    color:#1E7F4F;
-    margin-top:6px;
-}
-
-.receipt-body{
-    padding:20px;
-}
-
-.amount{
-    font-size:22px;
-    font-weight:700;
-    margin-bottom:15px;
-}
-
-.section{
-    margin-bottom:18px;
-}
-
-.section-title{
-    font-weight:600;
-    font-size:12px;
-    margin-bottom:8px;
-    color:#555;
-}
-
-.row{
-    display:flex;
-    justify-content:space-between;
-    margin-bottom:6px;
-}
-
-.label{
-    color:#777;
-}
-
-.value{
-    font-weight:600;
-    text-align:right;
-    max-width:60%;
-    word-wrap:break-word;
-}
-
-.divider{
-    height:1px;
-    background:#EEE;
-    margin:15px 0;
-}
-
-.footer{
-    padding:15px 20px;
-    font-size:11px;
-    color:#777;
-    border-top:1px solid #EEE;
-    text-align:center;
-}
-</style>
-
-<div class="receipt-header">
-    <div class="bank-name">NovaPay</div>
-    <div class="status-badge">Transaction Successful</div>
-</div>
-
-<div class="receipt-body">
-
-    <div class="amount" id="rAmount"></div>
-
-    <!-- TRANSACTION DETAILS -->
-    <div class="section">
-        <div class="section-title">Transaction Details</div>
+        <div class="amount" id="rAmount"></div>
 
         <div class="row">
-            <span class="label">Reference Number</span>
+            <span class="label">Reference</span>
             <span class="value" id="rRef"></span>
         </div>
 
         <div class="row">
-            <span class="label">Session ID</span>
-            <span class="value" id="rSession"></span>
-        </div>
-
-        <div class="row">
-            <span class="label">Date & Time</span>
+            <span class="label">Date</span>
             <span class="value" id="rDate"></span>
         </div>
 
-        <div class="row">
-            <span class="label">Channel</span>
-            <span class="value">Mobile Application</span>
-        </div>
-    </div>
-
-    <div class="divider"></div>
-
-    <!-- SENDER -->
-    <div class="section">
-        <div class="section-title">Sender Information</div>
+        <div class="divider"></div>
 
         <div class="row">
-            <span class="label">Account Name</span>
+            <span class="label">Sender</span>
             <span class="value" id="rSender"></span>
         </div>
 
         <div class="row">
-            <span class="label">Account Number</span>
+            <span class="label">Sender Account</span>
             <span class="value" id="rSenderAcc"></span>
         </div>
 
-        <div class="row">
-            <span class="label">Bank</span>
-            <span class="value">NovaPay</span>
-        </div>
-    </div>
-
-    <div class="divider"></div>
-
-    <!-- BENEFICIARY -->
-    <div class="section">
-        <div class="section-title">Beneficiary Information</div>
+        <div class="divider"></div>
 
         <div class="row">
-            <span class="label">Account Name</span>
+            <span class="label">Beneficiary</span>
             <span class="value" id="rReceiver"></span>
         </div>
 
         <div class="row">
-            <span class="label">Account Number</span>
+            <span class="label">Beneficiary Account</span>
             <span class="value" id="rReceiverAcc"></span>
         </div>
+
+        <div class="row">
+            <span class="label">Same Bank</span>
+            <span class="value" id="rSameBank"></span>
+        </div>
+
+        <div class="row">
+            <span class="label">Narration</span>
+            <span class="value" id="rNarration"></span>
+        </div>
+
     </div>
 
-    <div class="divider"></div>
-
-    <!-- FINANCIAL BREAKDOWN -->
-    <div class="section">
-        <div class="section-title">Financial Breakdown</div>
-
-        <div class="row">
-            <span class="label">Transfer Amount</span>
-            <span class="value" id="rAmount2"></span>
-        </div>
-
-        <div class="row">
-            <span class="label">Transaction Fee</span>
-            <span class="value">₦10.00</span>
-        </div>
-
-        <div class="row">
-            <span class="label">Total Debit</span>
-            <span class="value" id="rTotal"></span>
-        </div>
-
-        <div class="row">
-            <span class="label">Available Balance</span>
-            <span class="value" id="rBalance"></span>
-        </div>
-    </div>
-
-</div>
-
-<div class="footer">
-    For support, contact support@novapay.com  
-    <br>
-    © 2026 NovaPay. All rights reserved.
-</div>
+    <button class="back-btn" onclick="goBack()">Back</button>
 
 </div>
 
 <script>
 
-function generateSession(){
-    return Math.floor(Math.random()*1000000000000000);
+function generateReference(){
+    return "NP-" + Math.floor(Math.random()*1000000000);
 }
 
 function generateReceipt(){
 
-    let amount = Number(document.getElementById("amount").value);
-    let fee = 10;
-    let total = amount + fee;
-    let balance = 500000 - total; // demo balance logic
-
     document.getElementById("rAmount").innerText =
-        "₦" + amount.toLocaleString();
+        "₦" + Number(document.getElementById("amount").value).toLocaleString();
 
-    document.getElementById("rAmount2").innerText =
-        "₦" + amount.toLocaleString();
-
-    document.getElementById("rTotal").innerText =
-        "₦" + total.toLocaleString();
-
-    document.getElementById("rBalance").innerText =
-        "₦" + balance.toLocaleString();
-
-    document.getElementById("rRef").innerText =
-        "NP" + Math.floor(Math.random()*1000000000);
-
-    document.getElementById("rSession").innerText =
-        generateSession();
-
-    document.getElementById("rDate").innerText =
-        new Date().toLocaleString();
+    document.getElementById("rRef").innerText = generateReference();
+    document.getElementById("rDate").innerText = new Date().toLocaleString();
 
     document.getElementById("rSender").innerText =
         document.getElementById("senderName").value;
@@ -447,6 +293,22 @@ function generateReceipt(){
     document.getElementById("rReceiverAcc").innerText =
         document.getElementById("receiverAccount").value;
 
+    document.getElementById("rSameBank").innerText =
+        document.getElementById("sameBank").checked ? "Yes" : "No";
+
+    document.getElementById("rNarration").innerText =
+        document.getElementById("narration").value;
+
     document.getElementById("formSection").style.display = "none";
     document.getElementById("receiptSection").style.display = "block";
 }
+
+function goBack(){
+    document.getElementById("receiptSection").style.display = "none";
+    document.getElementById("formSection").style.display = "block";
+}
+
+</script>
+
+</body>
+</html>
