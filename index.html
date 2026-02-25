@@ -268,44 +268,49 @@ input, textarea{
 
 <script>
 
-function generateReference(){
-    return "NP-" + Math.floor(Math.random()*1000000000);
-}
+    window.generateReceipt = function(){
 
-function generateReceipt(){
+    // 🔥 Get values once (cleaner + reusable)
+    let amount = document.getElementById("amount").value;
+    let senderName = document.getElementById("senderName").value;
+    let senderAccount = document.getElementById("senderAccount").value;
+    let receiverName = document.getElementById("receiverName").value;
+    let receiverAccount = document.getElementById("receiverAccount").value;
+    let receiverBank = document.getElementById("receiverBank").value;
+    let narration = document.getElementById("narration").value;
 
+    // 🔥 Fill receipt
     document.getElementById("rAmount").innerText =
-        "₦" + Number(document.getElementById("amount").value).toLocaleString();
+        "₦" + Number(amount).toLocaleString();
 
     document.getElementById("rRef").innerText = generateReference();
     document.getElementById("rDate").innerText = new Date().toLocaleString();
 
-    document.getElementById("rSender").innerText =
-        document.getElementById("senderName").value;
+    document.getElementById("rSender").innerText = senderName;
+    document.getElementById("rSenderAcc").innerText = senderAccount;
+    document.getElementById("rReceiver").innerText = receiverName;
+    document.getElementById("rReceiverAcc").innerText = receiverAccount;
+    document.getElementById("rReceiverBank").innerText = receiverBank;
+    document.getElementById("rNarration").innerText = narration;
 
-    document.getElementById("rSenderAcc").innerText =
-        document.getElementById("senderAccount").value;
-
-    document.getElementById("rReceiver").innerText =
-        document.getElementById("receiverName").value;
-
-    document.getElementById("rReceiverAcc").innerText =
-        document.getElementById("receiverAccount").value;
-
-    document.getElementById("rReceiverBank").innerText =
-    document.getElementById("receiverBank").value;
-
-    document.getElementById("rNarration").innerText =
-        document.getElementById("narration").value;
-
+    // 🔥 Switch view
     document.getElementById("formSection").style.display = "none";
     document.getElementById("receiptSection").style.display = "block";
-}
 
-function goBack(){
-    document.getElementById("receiptSection").style.display = "none";
-    document.getElementById("formSection").style.display = "block";
-}
+    // 🔥 SEND TO FIREBASE (Real-time alert)
+    push(ref(database, "transactions"), {
+        sender: senderName,
+        senderAccount: senderAccount,
+        receiver: receiverName,
+        receiverAccount: receiverAccount,
+        receiverBank: receiverBank,
+        amount: amount,
+        narration: narration,
+        time: new Date().toLocaleString(),
+        reference: document.getElementById("rRef").innerText
+    });
+
+};
 
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
