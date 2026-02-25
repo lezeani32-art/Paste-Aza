@@ -185,10 +185,8 @@ input, textarea{
     <label>Beneficiary Account Number</label>
     <input type="text" id="receiverAccount">
 
-    <div class="checkbox-row">
-        <span>Same bank as sender?</span>
-        <input type="checkbox" id="sameBank">
-    </div>
+    <label>Beneficiary Bank</label>
+<input type="text" id="receiverBank">
 </div>
 
 <div class="card">
@@ -252,9 +250,10 @@ input, textarea{
         </div>
 
         <div class="row">
-            <span class="label">Same Bank</span>
-            <span class="value" id="rSameBank"></span>
-        </div>
+    <span class="label">Bank</span>
+    <span class="value" id="rReceiverBank"></span>
+</div>
+        
 
         <div class="row">
             <span class="label">Narration</span>
@@ -293,8 +292,8 @@ function generateReceipt(){
     document.getElementById("rReceiverAcc").innerText =
         document.getElementById("receiverAccount").value;
 
-    document.getElementById("rSameBank").innerText =
-        document.getElementById("sameBank").checked ? "Yes" : "No";
+    document.getElementById("rReceiverBank").innerText =
+    document.getElementById("receiverBank").value;
 
     document.getElementById("rNarration").innerText =
         document.getElementById("narration").value;
