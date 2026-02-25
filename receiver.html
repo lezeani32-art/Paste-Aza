@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>NovaPay Receiver</title>
+</head>
+
+<body onload="listenForTransactions()">
+
+<h2>NovaPay Receiver Dashboard</h2>
+<p>Waiting for incoming transactions...</p>
+
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
+import { getDatabase, ref, onChildAdded } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-database.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAvkd8ffJtd5bZa_WB5KVLRb8QxI3j-2g4",
+  authDomain: "novapay-bc6a4.firebaseapp.com",
+  databaseURL: "https://novapay-bc6a4-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "novapay-bc6a4",
+  storageBucket: "novapay-bc6a4.firebasestorage.app",
+  messagingSenderId: "665887318246",
+  appId: "1:665887318246:web:7cc9e96fab343f52a2db27"
+};
+
+const app = initializeApp(firebaseConfig);
+const database = getDatabase(app);
+
+window.listenForTransactions = function() {
+    const transactionsRef = ref(database, "transactions");
+
+    onChildAdded(transactionsRef, (snapshot) => {
+        const data = snapshot.val();
+        alert("New Credit Alert!\nFrom: " + data.sender +
+              "\nAmount: ₦" + data.amount);
+    });
+};
+
+</script>
+
+</body>
+</html>
