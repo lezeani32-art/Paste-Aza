@@ -266,11 +266,32 @@ input, textarea{
 
 </div>
 
-<script>
+<script type="module">
 
-    window.generateReceipt = function(){
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
+import { getDatabase, ref, push, onChildAdded } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-database.js";
 
-    // 🔥 Get values once (cleaner + reusable)
+const firebaseConfig = {
+  apiKey: "AIzaSyAvkd8ffJtd5bZa_WB5KVLRb8QxI3j-2g4",
+  authDomain: "novapay-bc6a4.firebaseapp.com",
+  databaseURL: "https://novapay-bc6a4-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "novapay-bc6a4",
+  storageBucket: "novapay-bc6a4.firebasestorage.app",
+  messagingSenderId: "665887318246",
+  appId: "1:665887318246:web:7cc9e96fab343f52a2db27"
+};
+
+const app = initializeApp(firebaseConfig);
+const database = getDatabase(app);
+
+// 🔥 Generate Reference
+window.generateReference = function(){
+    return "NP-" + Math.floor(Math.random()*1000000000);
+};
+
+// 🔥 Generate Receipt
+window.generateReceipt = function(){
+
     let amount = document.getElementById("amount").value;
     let senderName = document.getElementById("senderName").value;
     let senderAccount = document.getElementById("senderAccount").value;
@@ -279,13 +300,13 @@ input, textarea{
     let receiverBank = document.getElementById("receiverBank").value;
     let narration = document.getElementById("narration").value;
 
-    // 🔥 Fill receipt
     document.getElementById("rAmount").innerText =
         "₦" + Number(amount).toLocaleString();
 
-    document.getElementById("rRef").innerText = generateReference();
-    document.getElementById("rDate").innerText = new Date().toLocaleString();
+    let refCode = generateReference();
 
+    document.getElementById("rRef").innerText = refCode;
+    document.getElementById("rDate").innerText = new Date().toLocaleString();
     document.getElementById("rSender").innerText = senderName;
     document.getElementById("rSenderAcc").innerText = senderAccount;
     document.getElementById("rReceiver").innerText = receiverName;
@@ -293,11 +314,10 @@ input, textarea{
     document.getElementById("rReceiverBank").innerText = receiverBank;
     document.getElementById("rNarration").innerText = narration;
 
-    // 🔥 Switch view
     document.getElementById("formSection").style.display = "none";
     document.getElementById("receiptSection").style.display = "block";
 
-    // 🔥 SEND TO FIREBASE (Real-time alert)
+    // 🔥 Save to Firebase
     push(ref(database, "transactions"), {
         sender: senderName,
         senderAccount: senderAccount,
@@ -307,48 +327,24 @@ input, textarea{
         amount: amount,
         narration: narration,
         time: new Date().toLocaleString(),
-        reference: document.getElementById("rRef").innerText
+        reference: refCode
     });
 
 };
 
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
-  import { getDatabase, ref, push, onChildAdded } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-database.js";
-
-  const firebaseConfig = {
-    apiKey: "AIzaSyAvkd8ffJtd5bZa_WB5KVLRb8QxI3j-2g4",
-    authDomain: "novapay-bc6a4.firebaseapp.com",
-    databaseURL: "https://novapay-bc6a4-default-rtdb.europe-west1.firebasedatabase.app",
-    projectId: "novapay-bc6a4",
-    storageBucket: "novapay-bc6a4.firebasestorage.app",
-    messagingSenderId: "665887318246",
-    appId: "1:665887318246:web:7cc9e96fab343f52a2db27"
-  };
-
-  const app = initializeApp(firebaseConfig);
-  const database = getDatabase(app);
-
-  // 🔥 SEND TRANSACTION
-  window.sendTransaction = function(sender, receiver, amount) {
-    push(ref(database, "transactions"), {
-      sender: sender,
-      receiver: receiver,
-      amount: amount,
-      time: new Date().toLocaleString()
-    });
-  };
-
-  // 🔥 LISTEN FOR ALERTS (Receiver Device)
-  window.listenForTransactions = function() {
+// 🔥 Receiver Listener
+window.listenForTransactions = function() {
     const transactionsRef = ref(database, "transactions");
 
     onChildAdded(transactionsRef, (snapshot) => {
-      const data = snapshot.val();
-      alert("New Credit Alert!\nFrom: " + data.sender + "\nAmount: ₦" + data.amount);
+        const data = snapshot.val();
+        alert("New Credit Alert!\nFrom: " + data.sender +
+              "\nAmount: ₦" + data.amount);
     });
-  };
+};
+
 </script>
+
 
 </body>
 </html>
