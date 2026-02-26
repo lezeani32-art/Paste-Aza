@@ -1,25 +1,68 @@
-let selectedBank = "";
-
-function openBankModal() {
-  document.getElementById("bankModal").classList.add("active");
+.receipt {
+    max-width: 500px;
+    margin: auto;
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    font-family: Arial, sans-serif;
 }
 
-function closeBankModal() {
-  document.getElementById("bankModal").classList.remove("active");
+.receipt-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
-function chooseBank(bankName) {
-  selectedBank = bankName;
-  document.getElementById("selectedBank").innerText = bankName;
-  closeBankModal();
+.brand {
+    display: flex;
+    align-items: center;
 }
 
-function filterBanks() {
-  const input = document.getElementById("bankSearch").value.toLowerCase();
-  const banks = document.querySelectorAll(".bank-item");
+.logo-box {
+    width: 40px;
+    height: 40px;
+    background: #5b2dff;
+    color: #fff;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    margin-right: 10px;
+}
 
-  banks.forEach(bank => {
-    const text = bank.innerText.toLowerCase();
-    bank.style.display = text.includes(input) ? "flex" : "none";
-  });
+.brand-text h2 {
+    margin: 0;
+    font-size: 18px;
+}
+
+.receipt-title h3 {
+    margin: 0;
+}
+
+.item {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    font-size: 14px;
+    border-bottom: 1px solid #eee;
+}
+
+.item strong {
+    font-weight: 600;
+}
+
+.success {
+    color: green;
+}
+
+.back-btn {
+    width: 100%;
+    padding: 12px;
+    background: #5b2dff;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    margin-top: 15px;
 }
