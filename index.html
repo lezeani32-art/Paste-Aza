@@ -190,85 +190,89 @@ input, textarea{
 
 </div>
 
-<!-- RECEIPT -->
-<div class="receipt" id="receiptSection">
+<div class="receipt" id="receiptSection" style="display:none;">
 
-    <div class="receipt-header">
-        <h3>NovaPay</h3>
-        <div class="status" id="rStatus">Successful</div>
+    <!-- HEADER -->
+    <div class="receipt-top">
+        <div class="brand">
+            <div class="logo-box">NP</div>
+            <div class="brand-text">
+                <h2>NovaPay</h2>
+                <small>Smart Digital Payments</small>
+            </div>
+        </div>
+        <div class="receipt-title">
+            <h3>Transaction Receipt</h3>
+            <small id="rGenerated"></small>
+        </div>
     </div>
 
+    <hr>
+
+    <!-- BODY -->
     <div class="receipt-body">
 
-        <!-- 1 -->
-        <div class="row">
-            <span class="label">Transaction Amount</span>
-            <span class="value" id="rAmount"></span>
+        <div class="item">
+            <span>Transaction Amount</span>
+            <strong id="rAmount"></strong>
         </div>
 
-        <!-- 2 -->
-        <div class="row">
-            <span class="label">Transaction Type</span>
-            <span class="value">Inter-Bank Transfer</span>
+        <div class="item">
+            <span>Transaction Type</span>
+            <strong>Inter-Bank Transfer</strong>
         </div>
 
-        <!-- 3 -->
-        <div class="row">
-            <span class="label">Transaction Date</span>
-            <span class="value" id="rDate"></span>
+        <div class="item">
+            <span>Transaction Date</span>
+            <strong id="rDate"></strong>
         </div>
 
-        <!-- 4 -->
-        <div class="row">
-            <span class="label">Sender</span>
-            <span class="value" id="rSender"></span>
+        <div class="item">
+            <span>Sender</span>
+            <strong id="rSender"></strong>
         </div>
 
-        <!-- 5 -->
-        <div class="row">
-            <span class="label">Beneficiary</span>
-            <span class="value" id="rReceiver"></span>
+        <div class="item">
+            <span>Beneficiary</span>
+            <strong id="rReceiver"></strong>
         </div>
 
-        <!-- 6 -->
-        <div class="row">
-            <span class="label">Remark</span>
-            <span class="value" id="rNarration"></span>
+        <div class="item">
+            <span>Remark</span>
+            <strong id="rNarration"></strong>
         </div>
 
-        <!-- 7 -->
-        <div class="row">
-            <span class="label">Transaction Reference</span>
-            <span class="value" id="rRef"></span>
+        <div class="item">
+            <span>Transaction Reference</span>
+            <strong id="rRef"></strong>
         </div>
 
-        <!-- 8 -->
-        <div class="row">
-            <span class="label">Transaction Status</span>
-            <span class="value">Successful</span>
+        <div class="item status">
+            <span>Transaction Status</span>
+            <strong class="success">Successful</strong>
         </div>
 
-        <div class="divider"></div>
+        <hr>
 
-        <!-- Masked Sender Account -->
-        <div class="row">
-            <span class="label">Sender Account</span>
-            <span class="value" id="rSenderAcc"></span>
+        <div class="item">
+            <span>Sender Account</span>
+            <strong id="rSenderAcc"></strong>
         </div>
 
-        <div class="row">
-            <span class="label">Beneficiary Account</span>
-            <span class="value" id="rReceiverAcc"></span>
+        <div class="item">
+            <span>Beneficiary Account</span>
+            <strong id="rReceiverAcc"></strong>
         </div>
 
-        <div class="row">
-            <span class="label">Bank</span>
-            <span class="value" id="rReceiverBank"></span>
+        <div class="item">
+            <span>Bank</span>
+            <strong id="rReceiverBank"></strong>
         </div>
 
     </div>
 
-    <button class="back-btn" onclick="goBack()">Back</button>
+    <button onclick="goBack()" class="back-btn">Back</button>
+
 
 </div>
 
