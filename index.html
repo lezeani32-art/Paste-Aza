@@ -266,31 +266,13 @@ input, textarea{
 
 </div>
 
-<script type="module">
+<script>
 
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
-import { getDatabase, ref, push, onChildAdded } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-database.js";
-
-const firebaseConfig = {
-  apiKey: "AIzaSyAvkd8ffJtd5bZa_WB5KVLRb8QxI3j-2g4",
-  authDomain: "novapay-bc6a4.firebaseapp.com",
-  databaseURL: "https://novapay-bc6a4-default-rtdb.europe-west1.firebasedatabase.app",
-  projectId: "novapay-bc6a4",
-  storageBucket: "novapay-bc6a4.firebasestorage.app",
-  messagingSenderId: "665887318246",
-  appId: "1:665887318246:web:7cc9e96fab343f52a2db27"
-};
-
-const app = initializeApp(firebaseConfig);
-const database = getDatabase(app);
-
-// 🔥 Generate Reference
-window.generateReference = function(){
+function generateReference(){
     return "NP-" + Math.floor(Math.random()*1000000000);
-};
+}
 
-// 🔥 Generate Receipt
-window.generateReceipt = function(){
+function generateReceipt(){
 
     let amount = document.getElementById("amount").value;
     let senderName = document.getElementById("senderName").value;
@@ -300,10 +282,15 @@ window.generateReceipt = function(){
     let receiverBank = document.getElementById("receiverBank").value;
     let narration = document.getElementById("narration").value;
 
-    document.getElementById("rAmount").innerText =
-        "₦" + Number(amount).toLocaleString();
+    if(!amount || !senderName || !receiverName){
+        alert("Please fill all required fields");
+        return;
+    }
 
     let refCode = generateReference();
+
+    document.getElementById("rAmount").innerText =
+        "₦" + Number(amount).toLocaleString();
 
     document.getElementById("rRef").innerText = refCode;
     document.getElementById("rDate").innerText = new Date().toLocaleString();
@@ -313,34 +300,10 @@ window.generateReceipt = function(){
     document.getElementById("rReceiverAcc").innerText = receiverAccount;
     document.getElementById("rReceiverBank").innerText = receiverBank;
     document.getElementById("rNarration").innerText = narration;
+    document.getElementById("rStatus").innerText = "Successful";
 
     document.getElementById("formSection").style.display = "none";
     document.getElementById("receiptSection").style.display = "block";
-
-    // 🔥 Save to Firebase
-    push(ref(database, "transactions"), {
-        sender: senderName,
-        senderAccount: senderAccount,
-        receiver: receiverName,
-        receiverAccount: receiverAccount,
-        receiverBank: receiverBank,
-        amount: amount,
-        narration: narration,
-        time: new Date().toLocaleString(),
-        reference: refCode
-    });
-
-};
-
-// 🔥 Receiver Listener
-window.listenForTransactions = function() {
-    const transactionsRef = ref(database, "transactions");
-
-    onChildAdded(transactionsRef, (snapshot) => {
-        const data = snapshot.val();
-        alert("New Credit Alert!\nFrom: " + data.sender +
-              "\nAmount: ₦" + data.amount);
-    });
-};
+}
 
 </script>
