@@ -268,6 +268,8 @@ input, textarea{
 
 <script>
 
+<script>
+
 function generateReference(){
     return "NP-" + Math.floor(Math.random()*1000000000);
 }
@@ -282,24 +284,25 @@ function generateReceipt(){
     let receiverBank = document.getElementById("receiverBank").value;
     let narration = document.getElementById("narration").value;
 
-    if(!amount || !senderName || !receiverName){
-        alert("Please fill all required fields");
-        return;
-    }
-
     let refCode = generateReference();
 
     document.getElementById("rAmount").innerText =
-        "₦" + Number(amount).toLocaleString();
+        "₦" + Number(amount || 0).toLocaleString();
+
+    document.getElementById("rTransferType").innerText = "Inter-Bank Transfer";
 
     document.getElementById("rRef").innerText = refCode;
     document.getElementById("rDate").innerText = new Date().toLocaleString();
-    document.getElementById("rSender").innerText = senderName;
-    document.getElementById("rSenderAcc").innerText = senderAccount;
-    document.getElementById("rReceiver").innerText = receiverName;
-    document.getElementById("rReceiverAcc").innerText = receiverAccount;
-    document.getElementById("rReceiverBank").innerText = receiverBank;
-    document.getElementById("rNarration").innerText = narration;
+
+    document.getElementById("rSender").innerText = senderName || "";
+    document.getElementById("rSenderAcc").innerText = senderAccount || "";
+
+    document.getElementById("rReceiver").innerText = receiverName || "";
+    document.getElementById("rReceiverAcc").innerText = receiverAccount || "";
+    document.getElementById("rReceiverBank").innerText = receiverBank || "";
+
+    document.getElementById("rNarration").innerText = narration || "";
+
     document.getElementById("rStatus").innerText = "Successful";
 
     document.getElementById("formSection").style.display = "none";
