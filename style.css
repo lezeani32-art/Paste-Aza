@@ -1,68 +1,33 @@
-.receipt {
-    max-width: 500px;
-    margin: auto;
-    background: #ffffff;
-    padding: 20px;
-    border-radius: 12px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-    font-family: Arial, sans-serif;
+.receipt-body {
+    margin-top: 20px;
 }
 
-.receipt-top {
+.row {
     display: flex;
     justify-content: space-between;
-    align-items: center;
-}
-
-.brand {
-    display: flex;
-    align-items: center;
-}
-
-.logo-box {
-    width: 40px;
-    height: 40px;
-    background: #5b2dff;
-    color: #fff;
-    font-weight: bold;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 8px;
-    margin-right: 10px;
-}
-
-.brand-text h2 {
-    margin: 0;
-    font-size: 18px;
-}
-
-.receipt-title h3 {
-    margin: 0;
-}
-
-.item {
-    display: flex;
-    justify-content: space-between;
-    padding: 10px 0;
+    padding: 12px 0;
     font-size: 14px;
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid #f0f0f0;
 }
 
-.item strong {
+.label {
+    color: #666;
+}
+
+.value {
     font-weight: 600;
+    text-align: right;
+    max-width: 60%;
+    word-break: break-word;
 }
 
-.success {
-    color: green;
+.status-row .value {
+    color: #1a7f37;
+    font-weight: bold;
 }
 
-.back-btn {
-    width: 100%;
-    padding: 12px;
-    background: #5b2dff;
-    color: white;
+hr {
     border: none;
-    border-radius: 8px;
-    margin-top: 15px;
+    border-top: 1px solid #ddd;
+    margin: 15px 0;
 }
