@@ -279,10 +279,6 @@ input, textarea{
 </div>
 
 <script>
-function generateReference(){
-    return "NP-" + Math.floor(Math.random()*1000000000);
-}
-
 function maskAccount(account){
     if(account.length < 6) return account;
     return account.substring(0,4) + "****" + account.substring(account.length-2);
@@ -299,26 +295,32 @@ function generateReceipt(){
     let narration = document.getElementById("narration").value;
 
     document.getElementById("rAmount").innerText =
-        "₦" + Number(amount || 0).toLocaleString();
+        "₦" + Number(amount).toLocaleString();
 
-    document.getElementById("rDate").innerText = new Date().toLocaleString();
-    document.getElementById("rRef").innerText = generateReference();
+    document.getElementById("rDate").innerText =
+        new Date().toLocaleString();
 
-    document.getElementById("rSender").innerText = senderName || "";
-    document.getElementById("rReceiver").innerText = receiverName || "";
-    document.getElementById("rNarration").innerText = narration || "";
+    document.getElementById("rRef").innerText =
+        "NP" + Math.floor(Math.random()*100000000000);
 
-    document.getElementById("rSenderAcc").innerText = maskAccount(senderAccount || "");
-    document.getElementById("rReceiverAcc").innerText = receiverAccount || "";
-    document.getElementById("rReceiverBank").innerText = receiverBank || "";
+    document.getElementById("rGenerated").innerText =
+        "Generated on " + new Date().toLocaleString();
+
+    document.getElementById("rSender").innerText = senderName;
+    document.getElementById("rReceiver").innerText = receiverName;
+    document.getElementById("rNarration").innerText = narration;
+
+    document.getElementById("rSenderAcc").innerText =
+        maskAccount(senderAccount);
+
+    document.getElementById("rReceiverAcc").innerText =
+        receiverAccount;
+
+    document.getElementById("rReceiverBank").innerText =
+        receiverBank;
 
     document.getElementById("formSection").style.display = "none";
     document.getElementById("receiptSection").style.display = "block";
-}
-
-function goBack(){
-    document.getElementById("receiptSection").style.display = "none";
-    document.getElementById("formSection").style.display = "block";
 }
 </script>
 
