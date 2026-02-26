@@ -60,13 +60,6 @@ input, textarea{
     outline:none;
 }
 
-.checkbox-row{
-    display:flex;
-    justify-content:space-between;
-    font-size:13px;
-    margin-bottom:14px;
-}
-
 .generate-btn{
     width:90%;
     margin:18px auto 35px auto;
@@ -90,7 +83,6 @@ input, textarea{
     box-shadow:0 20px 45px rgba(123,47,247,0.25);
 }
 
-/* PURPLE HEADER */
 .receipt-header{
     background:linear-gradient(135deg,#9B5DE5,#7B2FF7);
     padding:22px;
@@ -108,7 +100,6 @@ input, textarea{
     opacity:0.9;
 }
 
-/* RECEIPT BODY */
 .receipt-body{
     background:white;
     padding:20px;
@@ -156,7 +147,6 @@ input, textarea{
     font-size:13px;
     cursor:pointer;
 }
-
 </style>
 </head>
 
@@ -168,7 +158,6 @@ input, textarea{
 
 <div class="card">
     <div class="section-title">Sender Details</div>
-
     <label>Sender Name</label>
     <input type="text" id="senderName">
 
@@ -178,7 +167,6 @@ input, textarea{
 
 <div class="card">
     <div class="section-title">Beneficiary Details</div>
-
     <label>Beneficiary Name</label>
     <input type="text" id="receiverName">
 
@@ -186,12 +174,11 @@ input, textarea{
     <input type="text" id="receiverAccount">
 
     <label>Beneficiary Bank</label>
-<input type="text" id="receiverBank">
+    <input type="text" id="receiverBank">
 </div>
 
 <div class="card">
     <div class="section-title">Other Information</div>
-
     <label>Amount</label>
     <input type="number" id="amount">
 
@@ -250,10 +237,9 @@ input, textarea{
         </div>
 
         <div class="row">
-    <span class="label">Bank</span>
-    <span class="value" id="rReceiverBank"></span>
-</div>
-        
+            <span class="label">Bank</span>
+            <span class="value" id="rReceiverBank"></span>
+        </div>
 
         <div class="row">
             <span class="label">Narration</span>
@@ -262,12 +248,11 @@ input, textarea{
 
     </div>
 
-    <button onclick="generateReceipt()">Generate Receipt</button>
+    <button class="back-btn" onclick="goBack()">Back</button>
 
 </div>
 
 <script>
-
 function generateReference(){
     return "NP-" + Math.floor(Math.random()*1000000000);
 }
@@ -282,14 +267,10 @@ function generateReceipt(){
     let receiverBank = document.getElementById("receiverBank").value;
     let narration = document.getElementById("narration").value;
 
-    let refCode = generateReference();
-
     document.getElementById("rAmount").innerText =
         "₦" + Number(amount || 0).toLocaleString();
 
-    document.getElementById("rTransferType").innerText = "Inter-Bank Transfer";
-
-    document.getElementById("rRef").innerText = refCode;
+    document.getElementById("rRef").innerText = generateReference();
     document.getElementById("rDate").innerText = new Date().toLocaleString();
 
     document.getElementById("rSender").innerText = senderName || "";
@@ -301,12 +282,14 @@ function generateReceipt(){
 
     document.getElementById("rNarration").innerText = narration || "";
 
-    document.getElementById("rStatus").innerText = "Successful";
-
     document.getElementById("formSection").style.display = "none";
     document.getElementById("receiptSection").style.display = "block";
 }
 
+function goBack(){
+    document.getElementById("receiptSection").style.display = "none";
+    document.getElementById("formSection").style.display = "block";
+}
 </script>
 
 </body>
