@@ -284,98 +284,63 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
 
-//
-// 🔥 MASK ACCOUNT NUMBER
-//
-function maskAccountNumber(accountNumber) {
-  if (!accountNumber || accountNumber.length < 7) return accountNumber;
-
-  const firstFour = accountNumber.slice(0, 4);
-  const lastThree = accountNumber.slice(-3);
-
-  return firstFour + "***" + lastThree;
-}
-
-//
-// 🔥 GENERATE REFERENCE
-//
-function generateReference() {
-  return "NP-" + Date.now() + Math.floor(Math.random() * 1000);
-}
-
-//
-// 🔥 GENERATE RECEIPT
-//
-window.generateReceipt = function() {
-
-  let amount = document.getElementById("amount").value;
-  let senderName = document.getElementById("senderName").value;
-  let senderAccount = document.getElementById("senderAccount").value;
-  let receiverName = document.getElementById("receiverName").value;
-  let receiverAccount = document.getElementById("receiverAccount").value;
-  let receiverBank = document.getElementById("receiverBank").value;
-  let narration = document.getElementById("narration").value;
-
-  let reference = generateReference();
-  let date = new Date().toLocaleString();
-  let status = "Successful";
-  let type = "Inter-Bank Transfer";
-
-  // 🧾 Fill Receipt
-  document.getElementById("rAmount").innerText =
-    "₦" + Number(amount).toLocaleString();
-
-  document.getElementById("rTransferType").innerText = type;
-  document.getElementById("rDate").innerText = date;
-
-  document.getElementById("rSender").innerText = senderName;
-  document.getElementById("rSenderAcc").innerText =
-    maskAccountNumber(senderAccount);
-
-  document.getElementById("rReceiver").innerText = receiverName;
-  document.getElementById("rReceiverAcc").innerText =
-    maskAccountNumber(receiverAccount);
-
-  document.getElementById("rReceiverBank").innerText = receiverBank;
-  document.getElementById("rNarration").innerText = narration;
-  document.getElementById("rRef").innerText = reference;
-  document.getElementById("rStatus").innerText = status;
-
-  // 🔥 Save to Firebase
-  push(ref(database, "transactions"), {
-    sender: senderName,
-    senderAccount: senderAccount,
-    receiver: receiverName,
-    receiverAccount: receiverAccount,
-    receiverBank: receiverBank,
-    amount: amount,
-    narration: narration,
-    date: date,
-    reference: reference,
-    status: status,
-    type: type
-  });
-
-  // 🔁 Switch view
-  document.getElementById("formSection").style.display = "none";
-  document.getElementById("receiptSection").style.display = "block";
+// 🔥 Generate Reference
+window.generateReference = function(){
+    return "NP-" + Math.floor(Math.random()*1000000000);
 };
 
-//
-// 🔔 LISTEN FOR NEW TRANSACTIONS
-//
-window.listenForTransactions = function() {
-  const transactionsRef = ref(database, "transactions");
+// 🔥 Generate Receipt
+window.generateReceipt = function(){
 
-  onChildAdded(transactionsRef, (snapshot) => {
-    const data = snapshot.val();
-    alert(
-      "New Credit Alert!\nFrom: " +
-      data.sender +
-      "\nAmount: ₦" +
-      Number(data.amount).toLocaleString()
-    );
-  });
+    let amount = document.getElementById("amount").value;
+    let senderName = document.getElementById("senderName").value;
+    let senderAccount = document.getElementById("senderAccount").value;
+    let receiverName = document.getElementById("receiverName").value;
+    let receiverAccount = document.getElementById("receiverAccount").value;
+    let receiverBank = document.getElementById("receiverBank").value;
+    let narration = document.getElementById("narration").value;
+
+    document.getElementById("rAmount").innerText =
+        "₦" + Number(amount).toLocaleString();
+
+    let refCode = generateReference();
+
+    document.getElementById("rRef").innerText = refCode;
+    document.getElementById("rDate").innerText = new Date().toLocaleString();
+    document.getElementById("rSender").innerText = senderName;
+    document.getElementById("rSenderAcc").innerText = senderAccount;
+    document.getElementById("rReceiver").innerText = receiverName;
+    document.getElementById("rReceiverAcc").innerText = receiverAccount;
+    document.getElementById("rReceiverBank").innerText = receiverBank;
+    document.getElementById("rNarration").innerText = narration;
+
+    document.getElementById("formSection").style.display = "none";
+    document.getElementById("receiptSection").style.display = "block";
+
+    // 🔥 Save to Firebase
+    push(ref(database, "transactions"), {
+        sender: senderName,
+        senderAccount: senderAccount,
+        receiver: receiverName,
+        receiverAccount: receiverAccount,
+        receiverBank: receiverBank,
+        amount: amount,
+        narration: narration,
+        time: new Date().toLocaleString(),
+        reference: refCode
+    });
+
+};
+
+// 🔥 Receiver Listener
+window.listenForTransactions = function() {
+    const transactionsRef = ref(database, "transactions");
+
+    onChildAdded(transactionsRef, (snapshot) => {
+        const data = snapshot.val();
+        alert("New Credit Alert!\nFrom: " + data.sender +
+              "\nAmount: ₦" + data.amount);
+    });
 };
 
 </script>
