@@ -300,24 +300,32 @@ window.generateReceipt = function(){
     let receiverBank = document.getElementById("receiverBank").value;
     let narration = document.getElementById("narration").value;
 
+    let reference = generateNIPReference();
+    let date = new Date().toLocaleString();
+
     document.getElementById("rAmount").innerText =
         "₦" + Number(amount).toLocaleString();
 
-    let refCode = generateReference();
+    document.getElementById("rTransferType").innerText =
+        "Inter-Bank Transfer";
 
-    document.getElementById("rRef").innerText = refCode;
-    document.getElementById("rDate").innerText = new Date().toLocaleString();
+    document.getElementById("rDate").innerText = date;
+
     document.getElementById("rSender").innerText = senderName;
-    document.getElementById("rSenderAcc").innerText = senderAccount;
+    document.getElementById("rSenderAcc").innerText =
+        maskAccountNumber(senderAccount);
+
     document.getElementById("rReceiver").innerText = receiverName;
-    document.getElementById("rReceiverAcc").innerText = receiverAccount;
+    document.getElementById("rReceiverAcc").innerText =
+        maskAccountNumber(receiverAccount);
+
     document.getElementById("rReceiverBank").innerText = receiverBank;
     document.getElementById("rNarration").innerText = narration;
 
-    document.getElementById("formSection").style.display = "none";
-    document.getElementById("receiptSection").style.display = "block";
+    document.getElementById("rRef").innerText = reference;
+    document.getElementById("rStatus").innerText = "Successful";
 
-    // 🔥 Save to Firebase
+    // 🔥 SAVE TO FIREBASE (INSIDE FUNCTION)
     push(ref(database, "transactions"), {
         sender: senderName,
         senderAccount: senderAccount,
@@ -326,25 +334,12 @@ window.generateReceipt = function(){
         receiverBank: receiverBank,
         amount: amount,
         narration: narration,
-        time: new Date().toLocaleString(),
-        reference: refCode
+        date: date,
+        reference: reference,
+        status: "Successful",
+        type: "Inter-Bank Transfer"
     });
 
+    document.getElementById("formSection").style.display = "none";
+    document.getElementById("receiptSection").style.display = "block";
 };
-
-// 🔥 Receiver Listener
-window.listenForTransactions = function() {
-    const transactionsRef = ref(database, "transactions");
-
-    onChildAdded(transactionsRef, (snapshot) => {
-        const data = snapshot.val();
-        alert("New Credit Alert!\nFrom: " + data.sender +
-              "\nAmount: ₦" + data.amount);
-    });
-};
-
-</script>
-
-
-</body>
-</html>
