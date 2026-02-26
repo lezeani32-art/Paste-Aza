@@ -195,40 +195,65 @@ input, textarea{
 
     <div class="receipt-header">
         <h3>NovaPay</h3>
-        <div class="status">Transaction Successful</div>
+        <div class="status" id="rStatus">Successful</div>
     </div>
 
     <div class="receipt-body">
 
-        <div class="amount" id="rAmount"></div>
-
+        <!-- 1 -->
         <div class="row">
-            <span class="label">Reference</span>
-            <span class="value" id="rRef"></span>
+            <span class="label">Transaction Amount</span>
+            <span class="value" id="rAmount"></span>
         </div>
 
+        <!-- 2 -->
         <div class="row">
-            <span class="label">Date</span>
+            <span class="label">Transaction Type</span>
+            <span class="value">Inter-Bank Transfer</span>
+        </div>
+
+        <!-- 3 -->
+        <div class="row">
+            <span class="label">Transaction Date</span>
             <span class="value" id="rDate"></span>
         </div>
 
-        <div class="divider"></div>
-
+        <!-- 4 -->
         <div class="row">
             <span class="label">Sender</span>
             <span class="value" id="rSender"></span>
         </div>
 
+        <!-- 5 -->
         <div class="row">
-            <span class="label">Sender Account</span>
-            <span class="value" id="rSenderAcc"></span>
+            <span class="label">Beneficiary</span>
+            <span class="value" id="rReceiver"></span>
+        </div>
+
+        <!-- 6 -->
+        <div class="row">
+            <span class="label">Remark</span>
+            <span class="value" id="rNarration"></span>
+        </div>
+
+        <!-- 7 -->
+        <div class="row">
+            <span class="label">Transaction Reference</span>
+            <span class="value" id="rRef"></span>
+        </div>
+
+        <!-- 8 -->
+        <div class="row">
+            <span class="label">Transaction Status</span>
+            <span class="value">Successful</span>
         </div>
 
         <div class="divider"></div>
 
+        <!-- Masked Sender Account -->
         <div class="row">
-            <span class="label">Beneficiary</span>
-            <span class="value" id="rReceiver"></span>
+            <span class="label">Sender Account</span>
+            <span class="value" id="rSenderAcc"></span>
         </div>
 
         <div class="row">
@@ -241,20 +266,22 @@ input, textarea{
             <span class="value" id="rReceiverBank"></span>
         </div>
 
-        <div class="row">
-            <span class="label">Narration</span>
-            <span class="value" id="rNarration"></span>
-        </div>
-
     </div>
 
     <button class="back-btn" onclick="goBack()">Back</button>
 
 </div>
 
+</div>
+
 <script>
 function generateReference(){
     return "NP-" + Math.floor(Math.random()*1000000000);
+}
+
+function maskAccount(account){
+    if(account.length < 6) return account;
+    return account.substring(0,4) + "****" + account.substring(account.length-2);
 }
 
 function generateReceipt(){
@@ -270,17 +297,16 @@ function generateReceipt(){
     document.getElementById("rAmount").innerText =
         "₦" + Number(amount || 0).toLocaleString();
 
-    document.getElementById("rRef").innerText = generateReference();
     document.getElementById("rDate").innerText = new Date().toLocaleString();
+    document.getElementById("rRef").innerText = generateReference();
 
     document.getElementById("rSender").innerText = senderName || "";
-    document.getElementById("rSenderAcc").innerText = senderAccount || "";
-
     document.getElementById("rReceiver").innerText = receiverName || "";
+    document.getElementById("rNarration").innerText = narration || "";
+
+    document.getElementById("rSenderAcc").innerText = maskAccount(senderAccount || "");
     document.getElementById("rReceiverAcc").innerText = receiverAccount || "";
     document.getElementById("rReceiverBank").innerText = receiverBank || "";
-
-    document.getElementById("rNarration").innerText = narration || "";
 
     document.getElementById("formSection").style.display = "none";
     document.getElementById("receiptSection").style.display = "block";
