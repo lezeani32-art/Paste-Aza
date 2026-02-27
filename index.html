@@ -1,194 +1,263 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>NovaPay Receipt</title>
+    <title>NovaPay Premium</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<style>
-body{
-    font-family: Arial, sans-serif;
-    background:#f2f5f9;
-    padding:20px;
-}
+    <!-- jsPDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
-.container{
-    max-width:400px;
-    margin:auto;
-}
+    <!-- QR Code -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
-input, button{
-    width:100%;
-    padding:12px;
-    margin-bottom:10px;
-    border-radius:8px;
-    border:1px solid #ccc;
-    font-size:14px;
-}
+    <style>
+        body{
+            font-family: 'Segoe UI', sans-serif;
+            margin:0;
+            padding:15px;
+            background: linear-gradient(to bottom right,#eef2f7,#dce6f9);
+            transition:0.3s;
+        }
 
-button{
-    background:#0033A1;
-    color:white;
-    border:none;
-}
+        .dark{
+            background:#0f172a;
+            color:white;
+        }
 
-.receipt{
-    display:none;
-    margin-top:20px;
-    background:white;
-    border-radius:12px;
-    padding:20px;
-    box-shadow:0 10px 30px rgba(0,0,0,0.08);
-}
+        .container{
+            max-width:500px;
+            margin:auto;
+            background:white;
+            padding:20px;
+            border-radius:15px;
+            box-shadow:0 10px 30px rgba(0,0,0,0.1);
+            transition:0.3s;
+        }
 
-.header{
-    text-align:center;
-    font-weight:bold;
-    font-size:18px;
-    margin-bottom:15px;
-}
+        .dark .container{
+            background:#1e293b;
+        }
 
-.amount{
-    font-size:26px;
-    font-weight:bold;
-    text-align:center;
-    margin:15px 0;
-}
+        h2{
+            text-align:center;
+            color:#1b4b9b;
+        }
 
-.row{
-    display:flex;
-    justify-content:space-between;
-    font-size:14px;
-    margin-bottom:10px;
-    border-bottom:1px solid #eee;
-    padding-bottom:5px;
-}
+        input{
+            width:100%;
+            padding:10px;
+            margin-bottom:12px;
+            border-radius:6px;
+            border:1px solid #ddd;
+        }
 
-.footer{
-    text-align:center;
-    font-size:11px;
-    margin-top:15px;
-    color:#666;
-}
-</style>
+        button{
+            width:100%;
+            padding:12px;
+            background:#1b4b9b;
+            color:white;
+            border:none;
+            border-radius:6px;
+            font-weight:bold;
+            margin-bottom:10px;
+            cursor:pointer;
+        }
+
+        .receipt{
+            display:none;
+            margin-top:20px;
+            padding:20px;
+            border-radius:15px;
+            background:#ffffff;
+            position:relative;
+        }
+
+        .dark .receipt{
+            background:#0f172a;
+        }
+
+        .logo-preview{
+            text-align:center;
+            margin-bottom:10px;
+        }
+
+        .logo-preview img{
+            max-height:50px;
+        }
+
+        .success-check{
+            text-align:center;
+            font-size:40px;
+            color:green;
+            animation: pop 0.4s ease;
+        }
+
+        @keyframes pop{
+            from{transform:scale(0);}
+            to{transform:scale(1);}
+        }
+
+        .row{
+            display:flex;
+            justify-content:space-between;
+            margin:6px 0;
+            font-size:14px;
+        }
+
+        .section-box{
+            border:1px solid rgba(0,0,0,0.1);
+            padding:10px;
+            border-radius:8px;
+            margin:10px 0;
+        }
+
+        .line{
+            height:1px;
+            background:rgba(0,0,0,0.1);
+            margin:6px 0;
+        }
+
+        #qrcode{
+            margin-top:15px;
+            text-align:center;
+        }
+
+        @media(max-width:480px){
+            .row{font-size:13px;}
+        }
+    </style>
 </head>
-
 <body>
+
+<button onclick="toggleDarkMode()">Toggle Dark Mode</button>
 
 <div class="container">
 
-<h3>Generate Receipt</h3>
+    <h2>NovaPay Transfer</h2>
 
-<input type="text" id="senderName" placeholder="Sender Name">
-<input type="text" id="receiverName" placeholder="Beneficiary Name">
-<input type="text" id="receiverAcc" placeholder="Beneficiary Account Number">
-<input type="text" id="receiverBank" placeholder="Bank Name">
-<input type="number" id="amount" placeholder="Amount">
-<input type="text" id="remark" placeholder="Remark">
+    <input type="file" id="logoUpload">
+    <input type="text" id="amount" placeholder="Amount">
+    <input type="text" id="senderName" placeholder="Sender Name">
+    <input type="text" id="receiverName" placeholder="Beneficiary Name">
+    <input type="text" id="receiverAccount" placeholder="Beneficiary Account">
+    <input type="text" id="receiverBank" placeholder="Beneficiary Bank">
+    <input type="text" id="remark" placeholder="Remark">
 
-<button onclick="generateReceipt()">Generate Receipt</button>
+    <button onclick="generateReceipt()">Generate Receipt</button>
 
-<div class="receipt" id="receipt">
+    <div class="receipt" id="receipt">
 
-    <div class="header">NovaPay Transaction Receipt</div>
+        <div class="logo-preview" id="logoPreview"></div>
 
-    <div class="amount" id="rAmount"></div>
+        <div class="success-check">✔</div>
 
-    <div class="row">
-        <span>Date</span>
-        <span id="rDate"></span>
+        <div class="row"><span>Amount</span><span id="rAmount"></span></div>
+        <div class="line"></div>
+        <div class="row"><span>Date</span><span id="rDate"></span></div>
+        <div class="line"></div>
+
+        <div class="section-box">
+            <strong>Sender</strong>
+            <div class="row"><span>Name</span><span id="rSender"></span></div>
+        </div>
+
+        <div class="section-box">
+            <strong>Beneficiary</strong>
+            <div class="row"><span>Name</span><span id="rReceiver"></span></div>
+            <div class="row"><span>Account</span><span id="rReceiverAcc"></span></div>
+            <div class="row"><span>Bank</span><span id="rReceiverBank"></span></div>
+        </div>
+
+        <div class="row"><span>Remark</span><span id="rRemark"></span></div>
+        <div class="line"></div>
+        <div class="row"><span>Reference</span><span id="rRef"></span></div>
+
+        <div id="qrcode"></div>
+
+        <button onclick="downloadPDF()">Download PDF</button>
+
     </div>
-
-    <div class="row">
-        <span>Reference</span>
-        <span id="rRef"></span>
-    </div>
-
-    <div class="row">
-        <span>Sender</span>
-        <span id="rSender"></span>
-    </div>
-
-    <div class="row">
-        <span>Beneficiary</span>
-        <span id="rReceiver"></span>
-    </div>
-
-    <div class="row">
-        <span>Account</span>
-        <span id="rReceiverAcc"></span>
-    </div>
-
-    <div class="row">
-        <span>Bank</span>
-        <span id="rReceiverBank"></span>
-    </div>
-
-    <div class="row">
-        <span>Remark</span>
-        <span id="rRemark"></span>
-    </div>
-
-    <div class="footer">
-        This is a system generated receipt.
-    </div>
-
-    <button onclick="downloadImage()">Download Image</button>
-
 </div>
-
-</div>
-
-<!-- html2canvas -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
 <script>
+function toggleDarkMode(){
+    document.body.classList.toggle("dark");
+}
+
+function generateReference(){
+    return "NP-" + Math.floor(Math.random()*1000000000);
+}
 
 function generateReceipt(){
 
-    const now = new Date();
-    const ref = "NP" + Math.floor(Math.random()*1000000000);
+    let ref = generateReference();
 
     document.getElementById("rAmount").innerText =
-        "₦" + parseFloat(document.getElementById("amount").value).toLocaleString();
-
-    document.getElementById("rDate").innerText = now.toLocaleString();
+        "₦" + Number(amount.value || 0).toLocaleString();
+    document.getElementById("rDate").innerText =
+        new Date().toLocaleString();
+    document.getElementById("rSender").innerText = senderName.value;
+    document.getElementById("rReceiver").innerText = receiverName.value;
+    document.getElementById("rReceiverAcc").innerText = receiverAccount.value;
+    document.getElementById("rReceiverBank").innerText = receiverBank.value;
+    document.getElementById("rRemark").innerText = remark.value;
     document.getElementById("rRef").innerText = ref;
 
-    document.getElementById("rSender").innerText =
-        document.getElementById("senderName").value.toUpperCase();
+    saveTransaction(ref);
 
-    document.getElementById("rReceiver").innerText =
-        document.getElementById("receiverName").value.toUpperCase();
+    generateQR(ref);
 
-    document.getElementById("rReceiverAcc").innerText =
-        document.getElementById("receiverAcc").value;
+    previewLogo();
 
-    document.getElementById("rReceiverBank").innerText =
-        document.getElementById("receiverBank").value;
-
-    document.getElementById("rRemark").innerText =
-        document.getElementById("remark").value;
-
-    document.getElementById("receipt").style.display = "block";
+    receipt.style.display="block";
 }
 
-function downloadImage(){
+function previewLogo(){
+    let file = logoUpload.files[0];
+    if(!file) return;
+    let reader = new FileReader();
+    reader.onload = function(e){
+        logoPreview.innerHTML = `<img src="${e.target.result}">`;
+    }
+    reader.readAsDataURL(file);
+}
 
-    const receipt = document.getElementById("receipt");
-
-    html2canvas(receipt, { scale:3 }).then(function(canvas){
-
-        const link = document.createElement("a");
-
-        const ref = document.getElementById("rRef").innerText || "Receipt";
-
-        link.download = "NovaPay-" + ref + ".png";
-        link.href = canvas.toDataURL("image/png");
-
-        link.click();
+function generateQR(ref){
+    qrcode.innerHTML="";
+    new QRCode(document.getElementById("qrcode"),{
+        text: ref,
+        width:100,
+        height:100
     });
 }
 
+function saveTransaction(ref){
+    let data = {
+        ref: ref,
+        amount: amount.value,
+        sender: senderName.value,
+        receiver: receiverName.value,
+        date: new Date().toLocaleString()
+    };
+
+    let transactions = JSON.parse(localStorage.getItem("novapay")) || [];
+    transactions.push(data);
+    localStorage.setItem("novapay", JSON.stringify(transactions));
+}
+
+async function downloadPDF(){
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+
+    doc.text("NovaPay Transaction Receipt",20,20);
+    doc.text("Amount: "+rAmount.innerText,20,30);
+    doc.text("Date: "+rDate.innerText,20,40);
+    doc.text("Sender: "+rSender.innerText,20,50);
+    doc.text("Beneficiary: "+rReceiver.innerText,20,60);
+    doc.text("Reference: "+rRef.innerText,20,70);
+
+    doc.save("NovaPay-Receipt.pdf");
+}
 </script>
 
 </body>
