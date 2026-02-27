@@ -246,21 +246,22 @@ function generateReceipt(){
     document.getElementById("receipt").style.display = "block";
 }
 
-function downloadImage(){
+async function downloadPDF(){
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
 
-    const receipt = document.getElementById("receipt");
+    doc.text("NovaPay - Transaction Receipt", 20, 20);
+    doc.text("Amount: " + document.getElementById("rAmount").innerText, 20, 30);
+    doc.text("Date: " + document.getElementById("rDate").innerText, 20, 40);
+    doc.text("Sender: " + document.getElementById("rSender").innerText, 20, 50);
+    doc.text("Beneficiary: " + document.getElementById("rReceiver").innerText, 20, 60);
+    doc.text("Account: " + document.getElementById("rReceiverAcc").innerText, 20, 70);
+    doc.text("Bank: " + document.getElementById("rReceiverBank").innerText, 20, 80);
+    doc.text("Remark: " + document.getElementById("rRemark").innerText, 20, 90);
+    doc.text("Reference: " + document.getElementById("rRef").innerText, 20, 100);
+    doc.text("Status: Successful", 20, 110);
 
-    html2canvas(receipt, { scale:3 }).then(function(canvas){
-
-        const link = document.createElement("a");
-
-        const ref = document.getElementById("rRef").innerText || "Receipt";
-
-        link.download = "Nova bank-" + ref + ".png";
-        link.href = canvas.toDataURL("image/png");
-        
-        link.click();
-    });
+    doc.save("Nova Bank-Receipt.pdf");
 }
 </script>
 
