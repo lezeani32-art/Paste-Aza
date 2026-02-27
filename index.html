@@ -1,53 +1,82 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>NovaPay Receipt</title>
+    <title>NovaPay Premium Receipt</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- jsPDF CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
     <style>
         body{
-            font-family: Arial, sans-serif;
-            background: #f4f6f9;
-            padding: 20px;
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(to bottom right, #eef2f7, #d9e2f3);
+            padding: 15px;
+            margin: 0;
         }
 
         .container{
             max-width: 500px;
             margin: auto;
             background: white;
-            padding: 25px;
-            border-radius: 10px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
         }
 
         h2{
             text-align: center;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
+            color: #1b4b9b;
         }
 
         input{
             width: 100%;
-            padding: 8px;
-            margin-bottom: 10px;
+            padding: 10px;
+            margin-bottom: 12px;
+            border-radius: 6px;
+            border: 1px solid #ddd;
+            font-size: 14px;
         }
 
         button{
             width: 100%;
-            padding: 10px;
+            padding: 12px;
             background: #1b4b9b;
             color: white;
             border: none;
+            border-radius: 6px;
+            font-weight: bold;
+            margin-bottom: 10px;
             cursor: pointer;
         }
-
-        /* Receipt Styling */
 
         .receipt{
             display: none;
             margin-top: 20px;
-            background: #ffffff;
             padding: 25px;
-            border-radius: 10px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            border-radius: 15px;
+            background: #ffffff;
+            position: relative;
+        }
+
+        .watermark{
+            position: absolute;
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-25deg);
+            font-size: 40px;
+            color: rgba(0,0,0,0.05);
+            font-weight: bold;
+            pointer-events: none;
+        }
+
+        .logo{
+            text-align: center;
+            font-size: 22px;
+            font-weight: bold;
+            color: #1b4b9b;
+            margin-bottom: 10px;
         }
 
         .receipt-title{
@@ -57,37 +86,25 @@
             margin-bottom: 20px;
         }
 
-        .line{
-            height: 1px;
-            background: rgba(0,0,0,0.05);
-            margin: 10px 0;
-        }
-
         .row{
             display: flex;
             justify-content: space-between;
             font-size: 14px;
+            margin: 8px 0;
         }
 
-        .label{
-            color: #555;
-        }
-
-        .value{
-            font-weight: bold;
+        .line{
+            height: 1px;
+            background: rgba(0,0,0,0.07);
+            margin: 6px 0;
         }
 
         .section-box{
-            border: 1px solid rgba(0,0,0,0.05);
-            padding: 10px;
-            border-radius: 6px;
+            border: 1px solid rgba(0,0,0,0.07);
+            padding: 12px;
+            border-radius: 8px;
             margin: 10px 0;
-        }
-
-        .section-title{
-            font-weight: bold;
-            margin-bottom: 8px;
-            font-size: 14px;
+            background: #fafcff;
         }
 
         .footer{
@@ -95,6 +112,12 @@
             font-size: 12px;
             margin-top: 20px;
             color: #777;
+        }
+
+        @media (max-width: 480px){
+            .row{
+                font-size: 13px;
+            }
         }
     </style>
 </head>
@@ -115,72 +138,76 @@
 
     <div class="receipt" id="receipt">
 
+        <div class="watermark">DEMO RECEIPT</div>
+
+        <div class="logo">NovaPay</div>
+
         <div class="receipt-title">Transaction Receipt</div>
 
         <div class="row">
-            <span class="label">Transaction Amount</span>
-            <span class="value" id="rAmount"></span>
+            <span>Transaction Amount</span>
+            <span id="rAmount"></span>
         </div>
         <div class="line"></div>
 
         <div class="row">
-            <span class="label">Transaction Type</span>
-            <span class="value">Inter-Bank Transfer</span>
+            <span>Transaction Type</span>
+            <span>Inter-Bank Transfer</span>
         </div>
         <div class="line"></div>
 
         <div class="row">
-            <span class="label">Transaction Date</span>
-            <span class="value" id="rDate"></span>
+            <span>Transaction Date</span>
+            <span id="rDate"></span>
         </div>
         <div class="line"></div>
 
-        <!-- Sender Box -->
         <div class="section-box">
-            <div class="section-title">Sender</div>
+            <strong>Sender</strong>
             <div class="row">
-                <span class="label">Name</span>
-                <span class="value" id="rSender"></span>
+                <span>Name</span>
+                <span id="rSender"></span>
             </div>
         </div>
 
-        <!-- Beneficiary Box -->
         <div class="section-box">
-            <div class="section-title">Beneficiary</div>
+            <strong>Beneficiary</strong>
             <div class="row">
-                <span class="label">Name</span>
-                <span class="value" id="rReceiver"></span>
+                <span>Name</span>
+                <span id="rReceiver"></span>
             </div>
             <div class="row">
-                <span class="label">Account</span>
-                <span class="value" id="rReceiverAcc"></span>
+                <span>Account</span>
+                <span id="rReceiverAcc"></span>
             </div>
             <div class="row">
-                <span class="label">Bank</span>
-                <span class="value" id="rReceiverBank"></span>
+                <span>Bank</span>
+                <span id="rReceiverBank"></span>
             </div>
         </div>
 
         <div class="row">
-            <span class="label">Remark</span>
-            <span class="value" id="rRemark"></span>
-        </div>
-        <div class="line"></div>
-
-        <div class="row">
-            <span class="label">Transaction Reference</span>
-            <span class="value" id="rRef"></span>
+            <span>Remark</span>
+            <span id="rRemark"></span>
         </div>
         <div class="line"></div>
 
         <div class="row">
-            <span class="label">Transaction Status</span>
-            <span class="value">Successful</span>
+            <span>Transaction Reference</span>
+            <span id="rRef"></span>
+        </div>
+        <div class="line"></div>
+
+        <div class="row">
+            <span>Transaction Status</span>
+            <span>Successful</span>
         </div>
 
         <div class="footer">
             Generated from NovaPay
         </div>
+
+        <button onclick="downloadPDF()">Download PDF</button>
 
     </div>
 
@@ -193,27 +220,48 @@ function generateReference(){
 
 function generateReceipt(){
 
-    let amount = document.getElementById("amount").value;
-    let sender = document.getElementById("senderName").value;
-    let receiver = document.getElementById("receiverName").value;
-    let receiverAcc = document.getElementById("receiverAccount").value;
-    let receiverBank = document.getElementById("receiverBank").value;
-    let remark = document.getElementById("remark").value;
-
     document.getElementById("rAmount").innerText =
-        "₦" + Number(amount || 0).toLocaleString();
+        "₦" + Number(document.getElementById("amount").value || 0).toLocaleString();
 
     document.getElementById("rDate").innerText =
         new Date().toLocaleString();
 
-    document.getElementById("rSender").innerText = sender;
-    document.getElementById("rReceiver").innerText = receiver;
-    document.getElementById("rReceiverAcc").innerText = receiverAcc;
-    document.getElementById("rReceiverBank").innerText = receiverBank;
-    document.getElementById("rRemark").innerText = remark;
+    document.getElementById("rSender").innerText =
+        document.getElementById("senderName").value;
+
+    document.getElementById("rReceiver").innerText =
+        document.getElementById("receiverName").value;
+
+    document.getElementById("rReceiverAcc").innerText =
+        document.getElementById("receiverAccount").value;
+
+    document.getElementById("rReceiverBank").innerText =
+        document.getElementById("receiverBank").value;
+
+    document.getElementById("rRemark").innerText =
+        document.getElementById("remark").value;
+
     document.getElementById("rRef").innerText = generateReference();
 
     document.getElementById("receipt").style.display = "block";
+}
+
+async function downloadPDF(){
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+
+    doc.text("NovaPay - Transaction Receipt", 20, 20);
+    doc.text("Amount: " + document.getElementById("rAmount").innerText, 20, 30);
+    doc.text("Date: " + document.getElementById("rDate").innerText, 20, 40);
+    doc.text("Sender: " + document.getElementById("rSender").innerText, 20, 50);
+    doc.text("Beneficiary: " + document.getElementById("rReceiver").innerText, 20, 60);
+    doc.text("Account: " + document.getElementById("rReceiverAcc").innerText, 20, 70);
+    doc.text("Bank: " + document.getElementById("rReceiverBank").innerText, 20, 80);
+    doc.text("Remark: " + document.getElementById("rRemark").innerText, 20, 90);
+    doc.text("Reference: " + document.getElementById("rRef").innerText, 20, 100);
+    doc.text("Status: Successful", 20, 110);
+
+    doc.save("NovaPay-Receipt.pdf");
 }
 </script>
 
