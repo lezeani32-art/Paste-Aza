@@ -75,77 +75,72 @@ input, textarea{
 }
 
 /* RECEIPT */
-.receipt{
-    display:none;
-    margin:20px;
-    border-radius:20px;
-    overflow:hidden;
-    box-shadow:0 20px 45px rgba(123,47,247,0.25);
+.receipt {
+    max-width: 500px;
+    margin: 40px auto;
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 4px;
+    font-family: Arial, sans-serif;
 }
 
-.receipt-header{
-    background:linear-gradient(135deg,#9B5DE5,#7B2FF7);
-    padding:22px;
-    color:white;
+.receipt-header {
+    text-align: center;
 }
 
-.receipt-header h3{
-    margin:0;
-    font-size:16px;
+.receipt-header h2 {
+    margin: 0;
+    font-size: 20px;
+    font-weight: bold;
 }
 
-.status{
-    font-size:12px;
-    margin-top:6px;
-    opacity:0.9;
+.receipt-header small {
+    color: #777;
+    font-size: 12px;
 }
 
-.receipt-body{
-    background:white;
-    padding:20px;
+.line {
+    border-top: 1px solid rgba(0, 0, 0, 0.06);
+    margin: 14px 0;
 }
 
-.amount{
-    font-size:24px;
-    font-weight:700;
-    margin-bottom:15px;
-    color:#7B2FF7;
+.block {
+    padding: 8px 0;
 }
 
-.row{
-    display:flex;
-    justify-content:space-between;
-    margin-bottom:10px;
-    font-size:13px;
+.label {
+    font-size: 13px;
+    color: #555;
 }
 
-.label{
-    color:#6B7280;
+.value {
+    font-size: 15px;
+    font-weight: 600;
+    margin-top: 4px;
 }
 
-.value{
-    font-weight:600;
-    text-align:right;
-    max-width:60%;
-    word-wrap:break-word;
+.success {
+    color: #1a7f37;
 }
 
-.divider{
-    height:1px;
-    background:#EEE;
-    margin:15px 0;
+.section-box {
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    border-radius: 6px;
+    padding: 15px;
+    margin: 15px 0;
+    background: #ffffff;
 }
 
-.back-btn{
-    width:85%;
-    margin:15px auto 30px auto;
-    display:block;
-    padding:12px;
-    border:none;
-    border-radius:12px;
-    background:#ECECF3;
-    font-size:13px;
-    cursor:pointer;
+.section-title {
+    font-weight: 600;
+    font-size: 13px;
+    margin-bottom: 10px;
+    color: #444;
+}
+
+.sub-line {
+    border-top: 1px solid rgba(0, 0, 0, 0.04);
+    margin: 10px 0;
 }
 </style>
 </head>
@@ -189,85 +184,98 @@ input, textarea{
 <button class="generate-btn" onclick="generateReceipt()">Generate Receipt</button>
 
 </div>
-
 <div class="receipt" id="receiptSection" style="display:none;">
 
-    <!-- TOP BRAND -->
-    <div class="brand-area">
-        <div class="logo-box">NP</div>
-        <h2 class="brand-name">NovaPay</h2>
-        <small class="brand-tag">Smart Digital Payments</small>
-    </div>
-
-    <!-- CENTER TITLE -->
-    <div class="receipt-title">
-        <h3>Transaction Receipt</h3>
+    <!-- HEADER -->
+    <div class="receipt-header">
+        <h2>Transaction Receipt</h2>
         <small id="rGenerated"></small>
     </div>
 
-    <div class="divider-line"></div>
+    <div class="line"></div>
 
     <!-- BODY -->
     <div class="receipt-body">
 
-        <div class="row">
-            <span>Transaction Amount</span>
-            <strong id="rAmount"></strong>
+        <div class="block">
+            <div class="label">Transaction Amount</div>
+            <div class="value" id="rAmount"></div>
         </div>
 
-        <div class="row">
-            <span>Transaction Type</span>
-            <strong>Inter-Bank Transfer</strong>
+        <div class="line"></div>
+
+        <div class="block">
+            <div class="label">Transaction Type</div>
+            <div class="value">Inter-Bank Transfer</div>
         </div>
 
-        <div class="row">
-            <span>Transaction Date</span>
-            <strong id="rDate"></strong>
+        <div class="line"></div>
+
+        <div class="block">
+            <div class="label">Transaction Date</div>
+            <div class="value" id="rDate"></div>
         </div>
 
-        <div class="row">
-            <span>Sender</span>
-            <strong id="rSender"></strong>
+        <div class="line"></div>
+
+        <div class="block">
+            <div class="label">Sender</div>
+            <div class="value" id="rSender"></div>
         </div>
 
-        <div class="row">
-            <span>Beneficiary</span>
-            <strong id="rReceiver"></strong>
+        <div class="line"></div>
+
+        <!-- BENEFICIARY BOX -->
+        <div class="section-box">
+
+            <div class="section-title">Beneficiary Details</div>
+
+            <div class="block">
+                <div class="label">Name</div>
+                <div class="value" id="rReceiver"></div>
+            </div>
+
+            <div class="sub-line"></div>
+
+            <div class="block">
+                <div class="label">Account Number</div>
+                <div class="value" id="rReceiverAcc"></div>
+            </div>
+
+            <div class="sub-line"></div>
+
+            <div class="block">
+                <div class="label">Bank</div>
+                <div class="value" id="rReceiverBank"></div>
+            </div>
+
         </div>
 
-        <div class="row">
-            <span>Remark</span>
-            <strong id="rNarration"></strong>
+        <div class="line"></div>
+
+        <div class="block">
+            <div class="label">Remark</div>
+            <div class="value" id="rNarration"></div>
         </div>
 
-        <div class="row">
-            <span>Transaction Reference</span>
-            <strong id="rRef"></strong>
+        <div class="line"></div>
+
+        <div class="block">
+            <div class="label">Transaction Reference</div>
+            <div class="value" id="rRef"></div>
         </div>
 
-        <div class="row status-row">
-            <span>Transaction Status</span>
-            <strong>Transfer Successful</strong>
-        </div>
+        <div class="line"></div>
 
-        <div class="divider-line"></div>
-
-        <div class="row">
-            <span>Sender Account</span>
-            <strong id="rSenderAcc"></strong>
-        </div>
-
-        <div class="row">
-            <span>Beneficiary Account</span>
-            <strong id="rReceiverAcc"></strong>
-        </div>
-
-        <div class="row">
-            <span>Bank</span>
-            <strong id="rReceiverBank"></strong>
+        <div class="block">
+            <div class="label">Transaction Status</div>
+            <div class="value success">Transfer Successful</div>
         </div>
 
     </div>
+
+
+
 
     <button onclick="goBack()" class="back-btn">Back</button>
 
