@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>NovaPay Receipt</title>
+<title>NovaPay - Modern Purple</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 
@@ -11,7 +11,7 @@
 body{
     margin:0;
     font-family:'Inter', sans-serif;
-    background:#f2f4f7;
+    background:#ECECF3;
 }
 
 /* HEADER */
@@ -26,18 +26,19 @@ body{
     font-weight:600;
 }
 
-/* FORM CARDS */
+/* CARD */
 .card{
-    background:#ffffff;
+    background:#F7F7FA;
     margin:14px;
     padding:16px;
-    border-radius:12px;
-    box-shadow:0 4px 15px rgba(0,0,0,0.05);
+    border-radius:16px;
+    box-shadow:0 6px 18px rgba(0,0,0,0.04);
 }
 
 .section-title{
+    color:#9B5DE5;
     font-size:14px;
-    font-weight:600;
+    font-weight:700;
     margin-bottom:14px;
 }
 
@@ -50,11 +51,13 @@ label{
 
 input, textarea{
     width:100%;
-    padding:10px;
-    border:1px solid #e5e7eb;
-    border-radius:8px;
+    padding:10px 12px;
+    border:none;
+    border-radius:10px;
+    background:#E6E6EB;
     font-size:13px;
     margin-bottom:14px;
+    outline:none;
 }
 
 .generate-btn{
@@ -63,91 +66,85 @@ input, textarea{
     display:block;
     padding:13px;
     border:none;
-    border-radius:10px;
+    border-radius:12px;
     font-size:14px;
     font-weight:600;
     color:white;
-    background:#5b2dff;
+    background:linear-gradient(90deg,#9B5DE5,#7B2FF7);
     cursor:pointer;
 }
 
 /* RECEIPT */
-.receipt {
-    max-width: 500px;
-    margin: 40px auto;
-    background: #ffffff;
-    padding: 30px;
-    border-radius: 4px;
+.receipt{
     display:none;
+    margin:20px;
+    border-radius:20px;
+    overflow:hidden;
+    box-shadow:0 20px 45px rgba(123,47,247,0.25);
 }
 
-.receipt-header {
-    text-align: center;
+.receipt-header{
+    background:linear-gradient(135deg,#9B5DE5,#7B2FF7);
+    padding:22px;
+    color:white;
 }
 
-.receipt-header h2 {
-    margin: 0;
-    font-size: 20px;
-    font-weight: 700;
+.receipt-header h3{
+    margin:0;
+    font-size:16px;
 }
 
-.receipt-header small {
-    color: #777;
-    font-size: 12px;
+.status{
+    font-size:12px;
+    margin-top:6px;
+    opacity:0.9;
 }
 
-.line {
-    border-top: 1px solid rgba(0, 0, 0, 0.05);
-    margin: 14px 0;
+.receipt-body{
+    background:white;
+    padding:20px;
 }
 
-.block {
-    padding: 8px 0;
+.amount{
+    font-size:24px;
+    font-weight:700;
+    margin-bottom:15px;
+    color:#7B2FF7;
 }
 
-.label {
-    font-size: 13px;
-    color: #555;
+.row{
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:10px;
+    font-size:13px;
 }
 
-.value {
-    font-size: 15px;
-    font-weight: 600;
-    margin-top: 4px;
+.label{
+    color:#6B7280;
 }
 
-.success {
-    color: #1a7f37;
+.value{
+    font-weight:600;
+    text-align:right;
+    max-width:60%;
+    word-wrap:break-word;
 }
 
-/* BOX SECTIONS */
-.section-box {
-    border: 1px solid rgba(0, 0, 0, 0.05);
-    border-radius: 6px;
-    padding: 15px;
-    margin: 15px 0;
-    background: #ffffff;
-}
-
-.section-title-box {
-    font-weight: 600;
-    font-size: 13px;
-    margin-bottom: 10px;
-    color: #444;
-}
-
-.sub-line {
-    border-top: 1px solid rgba(0, 0, 0, 0.04);
-    margin: 10px 0;
+.divider{
+    height:1px;
+    background:#EEE;
+    margin:15px 0;
 }
 
 .back-btn{
-    width:100%;
-    margin-top:20px;
+    width:85%;
+    margin:15px auto 30px auto;
+    display:block;
     padding:12px;
     border:none;
-    border-radius:8px;
-    background:#e5e7eb;
+    border-radius:12px;
+    background:#ECECF3;
+    font-size:13px;
     cursor:pointer;
 }
 </style>
@@ -163,6 +160,9 @@ input, textarea{
     <div class="section-title">Sender Details</div>
     <label>Sender Name</label>
     <input type="text" id="senderName">
+
+    <label>Sender Account Number</label>
+    <input type="text" id="senderAccount">
 </div>
 
 <div class="card">
@@ -190,100 +190,78 @@ input, textarea{
 
 </div>
 
-<!-- RECEIPT SECTION -->
+<!-- RECEIPT -->
 <div class="receipt" id="receiptSection">
 
     <div class="receipt-header">
-        <h2>Transaction Receipt</h2>
-        <small id="rGenerated"></small>
+        <h3>NovaPay</h3>
+        <div class="status">Transaction Successful</div>
     </div>
 
-    <div class="line"></div>
+    <div class="receipt-body">
 
-    <div class="block">
-        <div class="label">Transaction Amount</div>
-        <div class="value" id="rAmount"></div>
-    </div>
+        <div class="amount" id="rAmount"></div>
 
-    <div class="line"></div>
-
-    <div class="block">
-        <div class="label">Transaction Type</div>
-        <div class="value">Inter-Bank Transfer</div>
-    </div>
-
-    <div class="line"></div>
-
-    <div class="block">
-        <div class="label">Transaction Date</div>
-        <div class="value" id="rDate"></div>
-    </div>
-
-    <div class="line"></div>
-
-    <!-- SENDER BOX -->
-    <div class="section-box">
-        <div class="section-title-box">Sender</div>
-        <div class="block">
-            <div class="label">Name</div>
-            <div class="value" id="rSender"></div>
-        </div>
-    </div>
-
-    <!-- BENEFICIARY BOX -->
-    <div class="section-box">
-        <div class="section-title-box">Beneficiary Details</div>
-
-        <div class="block">
-            <div class="label">Name</div>
-            <div class="value" id="rReceiver"></div>
+        <div class="row">
+            <span class="label">Reference</span>
+            <span class="value" id="rRef"></span>
         </div>
 
-        <div class="sub-line"></div>
-
-        <div class="block">
-            <div class="label">Account Number</div>
-            <div class="value" id="rReceiverAcc"></div>
+        <div class="row">
+            <span class="label">Date</span>
+            <span class="value" id="rDate"></span>
         </div>
 
-        <div class="sub-line"></div>
+        <div class="divider"></div>
 
-        <div class="block">
-            <div class="label">Bank</div>
-            <div class="value" id="rReceiverBank"></div>
+        <div class="row">
+            <span class="label">Sender</span>
+            <span class="value" id="rSender"></span>
         </div>
+
+        <div class="row">
+            <span class="label">Sender Account</span>
+            <span class="value" id="rSenderAcc"></span>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="row">
+            <span class="label">Beneficiary</span>
+            <span class="value" id="rReceiver"></span>
+        </div>
+
+        <div class="row">
+            <span class="label">Beneficiary Account</span>
+            <span class="value" id="rReceiverAcc"></span>
+        </div>
+
+        <div class="row">
+            <span class="label">Bank</span>
+            <span class="value" id="rReceiverBank"></span>
+        </div>
+
+        <div class="row">
+            <span class="label">Narration</span>
+            <span class="value" id="rNarration"></span>
+        </div>
+
     </div>
 
-    <div class="line"></div>
-
-    <div class="block">
-        <div class="label">Remark</div>
-        <div class="value" id="rNarration"></div>
-    </div>
-
-    <div class="line"></div>
-
-    <div class="block">
-        <div class="label">Transaction Reference</div>
-        <div class="value" id="rRef"></div>
-    </div>
-
-    <div class="line"></div>
-
-    <div class="block">
-        <div class="label">Transaction Status</div>
-        <div class="value success">Transfer Successful</div>
-    </div>
-
-    <button onclick="goBack()" class="back-btn">Back</button>
+    <button class="back-btn" onclick="goBack()">Back</button>
 
 </div>
 
 <script>
+function generateReference(){
+    return "NP-" + Math.floor(Math.random()*1000000000);
+}
+
 function generateReceipt(){
 
     let amount = document.getElementById("amount").value;
     let senderName = document.getElementById("senderName").value;
+    let senderAccount = document.getElementById("senderAccount").value;
     let receiverName = document.getElementById("receiverName").value;
     let receiverAccount = document.getElementById("receiverAccount").value;
     let receiverBank = document.getElementById("receiverBank").value;
@@ -292,20 +270,17 @@ function generateReceipt(){
     document.getElementById("rAmount").innerText =
         "₦" + Number(amount || 0).toLocaleString();
 
-    document.getElementById("rDate").innerText =
-        new Date().toLocaleString();
+    document.getElementById("rRef").innerText = generateReference();
+    document.getElementById("rDate").innerText = new Date().toLocaleString();
 
-    document.getElementById("rRef").innerText =
-        "NP" + Math.floor(Math.random()*100000000000);
+    document.getElementById("rSender").innerText = senderName || "";
+    document.getElementById("rSenderAcc").innerText = senderAccount || "";
 
-    document.getElementById("rGenerated").innerText =
-        "Generated from NovaPay on " + new Date().toLocaleString();
+    document.getElementById("rReceiver").innerText = receiverName || "";
+    document.getElementById("rReceiverAcc").innerText = receiverAccount || "";
+    document.getElementById("rReceiverBank").innerText = receiverBank || "";
 
-    document.getElementById("rSender").innerText = senderName;
-    document.getElementById("rReceiver").innerText = receiverName;
-    document.getElementById("rReceiverAcc").innerText = receiverAccount;
-    document.getElementById("rReceiverBank").innerText = receiverBank;
-    document.getElementById("rNarration").innerText = narration;
+    document.getElementById("rNarration").innerText = narration || "";
 
     document.getElementById("formSection").style.display = "none";
     document.getElementById("receiptSection").style.display = "block";
