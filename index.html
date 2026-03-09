@@ -1,227 +1,268 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <title>NovaPay Premium Receipt</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- jsPDF CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
-<script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <style>
+        body{
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(to bottom right, #eef2f7, #d9e2f3);
+            padding: 15px;
+            margin: 0;
+        }
 
-<style>
+        .container{
+            max-width: 500px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+        }
 
-body{
-background:#f1f3f6;
-font-family:Arial, Helvetica, sans-serif;
-display:flex;
-justify-content:center;
-padding:30px;
-}
+        h2{
+            text-align: center;
+            margin-bottom: 20px;
+            color: #1b4b9b;
+        }
 
-.receipt{
-width:360px;
-background:white;
-border-radius:12px;
-padding:20px;
-box-shadow:0 6px 18px rgba(0,0,0,0.08);
-}
+        input{
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 12px;
+            border-radius: 6px;
+            border: 1px solid #ddd;
+            font-size: 14px;
+        }
 
-.top{
-display:flex;
-justify-content:space-between;
-align-items:center;
-}
+        button{
+            width: 100%;
+            padding: 12px;
+            background: #1b4b9b;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            cursor: pointer;
+        }
 
-.bank-title{
-font-size:16px;
-font-weight:600;
-color:#1b3b6f;
-}
+        .receipt{
+            display: none;
+            margin-top: 20px;
+            padding: 25px;
+            border-radius: 15px;
+            background: #ffffff;
+            position: relative;
+        }
 
-.tagline{
-font-size:11px;
-color:#f47b20;
-}
+        .watermark{
+            position: absolute;
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-25deg);
+            font-size: 40px;
+            color: rgba(0,0,0,0.05);
+            font-weight: bold;
+            pointer-events: none;
+        }
 
-.title{
-text-align:center;
-font-size:15px;
-font-weight:600;
-color:#5aa9ff;
-margin-top:10px;
-}
+        .logo{
+            text-align: center;
+            font-size: 22px;
+            font-weight: bold;
+            color: #1b4b9b;
+            margin-bottom: 10px;
+        }
 
-.generated{
-text-align:center;
-font-size:11px;
-color:#999;
-margin-bottom:15px;
-}
+        .receipt-title{
+            text-align: center;
+            font-weight: bold;
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
 
-.row{
-display:flex;
-justify-content:space-between;
-padding:10px 0;
-border-bottom:1px solid #eee;
-}
+        .row{
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+            margin: 8px 0;
+        }
 
-.label{
-color:#f47b20;
-font-weight:600;
-font-size:12px;
-}
+        .line{
+            height: 1px;
+            background: rgba(0,0,0,0.07);
+            margin: 6px 0;
+        }
 
-.value{
-color:#5aa9ff;
-font-size:12px;
-text-align:right;
-max-width:200px;
-}
+        .section-box{
+            border: 1px solid rgba(0,0,0,0.07);
+            padding: 12px;
+            border-radius: 8px;
+            margin: 10px 0;
+            background: #fafcff;
+        }
 
-.footer{
-margin-top:15px;
-font-size:11px;
-color:#888;
-}
+        .footer{
+            text-align: center;
+            font-size: 12px;
+            margin-top: 20px;
+            color: #777;
+        }
 
-.buttons{
-margin-top:20px;
-}
-
-button{
-width:100%;
-padding:12px;
-border:none;
-border-radius:8px;
-background:#1b3b6f;
-color:white;
-font-size:14px;
-margin-top:10px;
-cursor:pointer;
-}
-
-button:hover{
-opacity:0.9;
-}
-
-.copy-btn{
-background:#f47b20;
-}
-
-</style>
-
+        @media (max-width: 480px){
+            .row{
+                font-size: 13px;
+            }
+        }
+    </style>
 </head>
-
 <body>
 
-<div>
+<div class="container">
 
-<div class="receipt" id="receipt">
+    <h2>Nova Bank</h2>
 
-<div class="top">
-<div class="bank-title">NovaPay</div>
-<div class="tagline">digital banking</div>
-</div>
+    <input type="text" id="amount" placeholder="Amount">
+    <input type="text" id="senderName" placeholder="Sender Name">
+    <input type="text" id="receiverName" placeholder="Beneficiary Name">
+    <input type="text" id="receiverAccount" placeholder="Beneficiary Account">
+    <input type="text" id="receiverBank" placeholder="Beneficiary Bank">
+    <input type="text" id="remark" placeholder="Remark">
 
-<div class="title">Transaction Receipt</div>
+    <button onclick="generateReceipt()">Generate Receipt</button>
 
-<div class="generated">
-Generated on 10/01/26 14:53:43
-</div>
+    <div class="receipt" id="receipt">
 
-<div class="row">
-<div class="label">Transaction Amount</div>
-<div class="value">₦60,000</div>
-</div>
+        <div class="watermark">NOVA BANK RECEIPT</div>
 
-<div class="row">
-<div class="label">Transaction Type</div>
-<div class="value">INTER-BANK</div>
-</div>
+        <div class="logo">Nova Bank</div>
 
-<div class="row">
-<div class="label">Transaction Date</div>
-<div class="value">2026-01-10 14:53:43</div>
-</div>
+        <div class="receipt-title">Transaction Receipt</div>
 
-<div class="row">
-<div class="label">Sender</div>
-<div class="value">ABU ABEL PRESIDENTIAL</div>
-</div>
+        <div class="row">
+            <span>Transaction Amount</span>
+            <span id="rAmount"></span>
+        </div>
+        <div class="line"></div>
 
-<div class="row">
-<div class="label">Beneficiary</div>
-<div class="value">
-WUESETER NAOMI UGBER<br>
-9066382320<br>
-Moniepoint
-</div>
-</div>
+        <div class="row">
+            <span>Transaction Type</span>
+            <span>Inter-Bank Transfer</span>
+        </div>
+        <div class="line"></div>
 
-<div class="row">
-<div class="label">Remark</div>
-<div class="value">Giveaway</div>
-</div>
+        <div class="row">
+            <span>Transaction Date</span>
+            <span id="rDate"></span>
+        </div>
+        <div class="line"></div>
 
-<div class="row">
-<div class="label">Transaction Reference</div>
-<div class="value" id="reference">
-NXG000015776062037802977164337584
-</div>
-</div>
+        <div class="section-box">
+            <strong>Sender</strong>
+            <div class="row">
+                <span>Name</span>
+                <span id="rSender"></span>
+            </div>
+        </div>
 
-<div class="row">
-<div class="label">Transaction Status</div>
-<div class="value">Transfer Request Successful</div>
-</div>
+        <div class="section-box">
+            <strong>Beneficiary</strong>
+            <div class="row">
+                <span>Name</span>
+                <span id="rReceiver"></span>
+            </div>
+            <div class="row">
+                <span>Account</span>
+                <span id="rReceiverAcc"></span>
+            </div>
+            <div class="row">
+                <span>Bank</span>
+                <span id="rReceiverBank"></span>
+            </div>
+        </div>
 
-<div class="footer">
-If you have any questions, contact support.  
-Thank you for using NovaPay.
-</div>
+        <div class="row">
+            <span>Remark</span>
+            <span id="rRemark"></span>
+        </div>
+        <div class="line"></div>
 
-</div>
+        <div class="row">
+            <span>Transaction Reference</span>
+            <span id="rRef"></span>
+        </div>
+        <div class="line"></div>
 
-<div class="buttons">
+        <div class="row">
+            <span>Transaction Status</span>
+            <span>Successful</span>
+        </div>
 
-<button class="copy-btn" onclick="copyReference()">
-Copy Transaction Reference
-</button>
+        <div class="footer">
+            Generated from Nova bank
+        </div>
 
-<button onclick="downloadReceipt()">
-Download Receipt Image
-</button>
+        <button onclick="downloadPDF()">Download PDF</button>
 
-</div>
+    </div>
 
 </div>
 
 <script>
-
-function downloadReceipt(){
-
-html2canvas(document.getElementById("receipt")).then(canvas => {
-
-const link = document.createElement("a")
-
-link.download = "transaction_receipt.png"
-
-link.href = canvas.toDataURL()
-
-link.click()
-
-})
-
+function generateReference(){
+    return "NP-" + Math.floor(Math.random()*1000000000);
 }
 
-function copyReference(){
+function generateReceipt(){
 
-const text = document.getElementById("reference").innerText
+    document.getElementById("rAmount").innerText =
+        "₦" + Number(document.getElementById("amount").value || 0).toLocaleString();
 
-navigator.clipboard.writeText(text)
+    document.getElementById("rDate").innerText =
+        new Date().toLocaleString();
 
-alert("Transaction reference copied!")
+    document.getElementById("rSender").innerText =
+        document.getElementById("senderName").value;
 
+    document.getElementById("rReceiver").innerText =
+        document.getElementById("receiverName").value;
+
+    document.getElementById("rReceiverAcc").innerText =
+        document.getElementById("receiverAccount").value;
+
+    document.getElementById("rReceiverBank").innerText =
+        document.getElementById("receiverBank").value;
+
+    document.getElementById("rRemark").innerText =
+        document.getElementById("remark").value;
+
+    document.getElementById("rRef").innerText = generateReference();
+
+    document.getElementById("receipt").style.display = "block";
 }
 
+async function downloadPDF(){
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+
+    doc.text("NovaPay - Transaction Receipt", 20, 20);
+    doc.text("Amount: " + document.getElementById("rAmount").innerText, 20, 30);
+    doc.text("Date: " + document.getElementById("rDate").innerText, 20, 40);
+    doc.text("Sender: " + document.getElementById("rSender").innerText, 20, 50);
+    doc.text("Beneficiary: " + document.getElementById("rReceiver").innerText, 20, 60);
+    doc.text("Account: " + document.getElementById("rReceiverAcc").innerText, 20, 70);
+    doc.text("Bank: " + document.getElementById("rReceiverBank").innerText, 20, 80);
+    doc.text("Remark: " + document.getElementById("rRemark").innerText, 20, 90);
+    doc.text("Reference: " + document.getElementById("rRef").innerText, 20, 100);
+    doc.text("Status: Successful", 20, 110);
+
+    doc.save("Nova Bank-Receipt.pdf");
+}
 </script>
 
 </body>
