@@ -1,98 +1,100 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
-<title>Transaction Receipt</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
 
 <style>
 
 body{
-background:#f3f4f6;
+background:#f1f3f6;
 font-family:Arial, Helvetica, sans-serif;
 display:flex;
 justify-content:center;
-padding:20px;
-}
-
-.receipt-container{
-width:390px;
+padding:30px;
 }
 
 .receipt{
+width:360px;
 background:white;
-border-radius:8px;
-box-shadow:0 3px 12px rgba(0,0,0,0.08);
+border-radius:12px;
 padding:20px;
+box-shadow:0 6px 18px rgba(0,0,0,0.08);
 }
 
 .top{
 display:flex;
 justify-content:space-between;
 align-items:center;
-margin-bottom:10px;
 }
 
 .bank-title{
-font-size:20px;
-font-weight:bold;
+font-size:16px;
+font-weight:600;
 color:#1b3b6f;
 }
 
 .tagline{
-font-size:12px;
+font-size:11px;
 color:#f47b20;
 }
 
 .title{
 text-align:center;
-font-weight:bold;
-font-size:18px;
+font-size:15px;
+font-weight:600;
+color:#5aa9ff;
 margin-top:10px;
 }
 
 .generated{
 text-align:center;
-font-size:12px;
-color:#888;
-margin-bottom:20px;
+font-size:11px;
+color:#999;
+margin-bottom:15px;
 }
 
 .row{
 display:flex;
 justify-content:space-between;
-padding:12px 0;
+padding:10px 0;
 border-bottom:1px solid #eee;
 }
 
 .label{
 color:#f47b20;
 font-weight:600;
+font-size:12px;
 }
 
 .value{
-color:#1b3b6f;
+color:#5aa9ff;
+font-size:12px;
 text-align:right;
 max-width:200px;
 }
 
 .footer{
 margin-top:15px;
-font-size:12px;
-color:#777;
-line-height:1.5;
+font-size:11px;
+color:#888;
+}
+
+.buttons{
+margin-top:20px;
 }
 
 button{
-margin-top:20px;
 width:100%;
-padding:14px;
+padding:12px;
 border:none;
-border-radius:6px;
+border-radius:8px;
 background:#1b3b6f;
 color:white;
-font-size:16px;
+font-size:14px;
+margin-top:10px;
 cursor:pointer;
 }
 
@@ -100,12 +102,17 @@ button:hover{
 opacity:0.9;
 }
 
+.copy-btn{
+background:#f47b20;
+}
+
 </style>
+
 </head>
 
 <body>
 
-<div class="receipt-container">
+<div>
 
 <div class="receipt" id="receipt">
 
@@ -156,7 +163,9 @@ Moniepoint
 
 <div class="row">
 <div class="label">Transaction Reference</div>
-<div class="value">NXG000015776062037802977164337584</div>
+<div class="value" id="reference">
+NXG000015776062037802977164337584
+</div>
 </div>
 
 <div class="row">
@@ -171,7 +180,17 @@ Thank you for using NovaPay.
 
 </div>
 
-<button onclick="downloadReceipt()">Download Receipt</button>
+<div class="buttons">
+
+<button class="copy-btn" onclick="copyReference()">
+Copy Transaction Reference
+</button>
+
+<button onclick="downloadReceipt()">
+Download Receipt Image
+</button>
+
+</div>
 
 </div>
 
@@ -179,19 +198,27 @@ Thank you for using NovaPay.
 
 function downloadReceipt(){
 
-const receipt = document.getElementById("receipt");
+html2canvas(document.getElementById("receipt")).then(canvas => {
 
-html2canvas(receipt).then(canvas => {
+const link = document.createElement("a")
 
-const link = document.createElement("a");
+link.download = "transaction_receipt.png"
 
-link.download = "receipt.png";
+link.href = canvas.toDataURL()
 
-link.href = canvas.toDataURL();
+link.click()
 
-link.click();
+})
 
-});
+}
+
+function copyReference(){
+
+const text = document.getElementById("reference").innerText
+
+navigator.clipboard.writeText(text)
+
+alert("Transaction reference copied!")
 
 }
 
