@@ -9,51 +9,54 @@
 <style>
 
 body{
-font-family: Arial, sans-serif;
-background:#f2f2f2;
-padding:20px;
+background:#f3f4f6;
+font-family:Arial, Helvetica, sans-serif;
 display:flex;
 justify-content:center;
+padding:20px;
+}
+
+.receipt-container{
+width:390px;
 }
 
 .receipt{
-width:380px;
 background:white;
 border-radius:8px;
+box-shadow:0 3px 12px rgba(0,0,0,0.08);
 padding:20px;
-box-shadow:0 0 10px rgba(0,0,0,0.1);
 }
 
-.header{
+.top{
 display:flex;
 justify-content:space-between;
 align-items:center;
 margin-bottom:10px;
 }
 
-.bank-name{
+.bank-title{
 font-size:20px;
 font-weight:bold;
-color:#1d3c6a;
+color:#1b3b6f;
 }
 
 .tagline{
-color:#ff7a00;
 font-size:12px;
+color:#f47b20;
 }
 
 .title{
 text-align:center;
-font-size:18px;
 font-weight:bold;
+font-size:18px;
 margin-top:10px;
 }
 
 .generated{
 text-align:center;
 font-size:12px;
-color:gray;
-margin-bottom:15px;
+color:#888;
+margin-bottom:20px;
 }
 
 .row{
@@ -64,35 +67,37 @@ border-bottom:1px solid #eee;
 }
 
 .label{
-color:#ff7a00;
+color:#f47b20;
 font-weight:600;
 }
 
 .value{
-color:#1d3c6a;
+color:#1b3b6f;
 text-align:right;
-}
-
-.status{
-color:#1d3c6a;
+max-width:200px;
 }
 
 .footer{
-font-size:12px;
-color:gray;
 margin-top:15px;
+font-size:12px;
+color:#777;
+line-height:1.5;
 }
 
 button{
 margin-top:20px;
 width:100%;
-padding:12px;
+padding:14px;
 border:none;
-background:#1d3c6a;
+border-radius:6px;
+background:#1b3b6f;
 color:white;
 font-size:16px;
-border-radius:6px;
 cursor:pointer;
+}
+
+button:hover{
+opacity:0.9;
 }
 
 </style>
@@ -100,19 +105,19 @@ cursor:pointer;
 
 <body>
 
-<div>
+<div class="receipt-container">
 
 <div class="receipt" id="receipt">
 
-<div class="header">
-<div class="bank-name">NovaPay</div>
-<div class="tagline">digital payment</div>
+<div class="top">
+<div class="bank-title">NovaPay</div>
+<div class="tagline">digital banking</div>
 </div>
 
 <div class="title">Transaction Receipt</div>
 
 <div class="generated">
-Generated from NovaPay on 10/01/26 14:53:43
+Generated on 10/01/26 14:53:43
 </div>
 
 <div class="row">
@@ -156,11 +161,12 @@ Moniepoint
 
 <div class="row">
 <div class="label">Transaction Status</div>
-<div class="value status">Transfer Request Successful</div>
+<div class="value">Transfer Request Successful</div>
 </div>
 
 <div class="footer">
-If you have any questions contact our support center.
+If you have any questions, contact support.  
+Thank you for using NovaPay.
 </div>
 
 </div>
@@ -179,7 +185,7 @@ html2canvas(receipt).then(canvas => {
 
 const link = document.createElement("a");
 
-link.download = "transaction-receipt.png";
+link.download = "receipt.png";
 
 link.href = canvas.toDataURL();
 
